@@ -5,6 +5,9 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
+    "langchain-text-splitters>=1.1.2",
     "python-dotenv>=1.2.2",
+    "qdrant-client>=1.18.0",
+    "sentence-transformers>=5.6.1",
     "tqdm>=4.69.1",
 ]
