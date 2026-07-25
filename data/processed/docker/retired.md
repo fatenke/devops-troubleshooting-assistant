@@ -1,0 +1,280 @@
+---
+title: Deprecated and retired Docker products and features
+linkTitle: Deprecated products and features
+description: |
+  Explore deprecated and retired Docker features, products, and open source
+  projects, including details on transitioned tools and archived initiatives.
+keywords: deprecated, retired, docker products, docker features, legacy
+params:
+  sidebar:
+    group: Application development
+aliases:
+  - /docker-hub/service-accounts/
+  - /cloud/
+  - /cloud/aci-container-features/
+  - /cloud/aci-integration/
+  - /cloud/ecs-architecture/
+  - /cloud/ecs-integration/
+  - /compose/migrate/
+  - /engine/context/aci-integration/
+  - /engine/context/ecs-integration/
+  - /machine/
+  - /machine/drivers/hyper-v/
+  - /machine/get-started/
+  - /machine/install-machine/
+  - /machine/overview/
+  - /registry/
+  - /registry/compatibility/
+  - /registry/configuration/
+  - /registry/deploying/
+  - /registry/deprecated/
+  - /registry/garbage-collection/
+  - /registry/help/
+  - /registry/insecure/
+  - /registry/introduction/
+  - /registry/notifications/
+  - /registry/recipes/
+  - /registry/recipes/apache/
+  - /registry/recipes/nginx/
+  - /registry/recipes/osx-setup-guide/
+  - /registry/spec/
+  - /registry/spec/api/
+  - /registry/spec/auth/
+  - /registry/spec/auth/jwt/
+  - /registry/spec/auth/oauth/
+  - /registry/spec/auth/scope/
+  - /registry/spec/auth/token/
+  - /registry/spec/deprecated-schema-v1/
+  - /registry/spec/implementations/
+  - /registry/spec/json/
+  - /registry/spec/manifest-v2-1/
+  - /registry/spec/manifest-v2-2/
+  - /registry/spec/menu/
+  - /registry/storage-drivers/
+  - /registry/storage-drivers/azure/
+  - /registry/storage-drivers/filesystem/
+  - /registry/storage-drivers/gcs/
+  - /registry/storage-drivers/inmemory/
+  - /registry/storage-drivers/oss/
+  - /registry/storage-drivers/s3/
+  - /registry/storage-drivers/swift/
+  - /toolbox/
+  - /toolbox/overview/
+  - /toolbox/toolbox_install_mac/
+  - /toolbox/toolbox_install_windows/
+  - /desktop/features/dev-environments/
+  - /scout/policy/scores/
+  - /scout/integrations/environment/sysdig/
+---
+
+This document provides an overview of Docker features, products, and
+open-source projects that have been deprecated, retired, or transitioned.
+
+> [!NOTE]
+>
+> This page does not cover deprecated and removed Docker Engine features.
+> For a detailed list of deprecated Docker Engine features, refer to the
+> [Docker Engine Deprecated Features documentation](/manuals/engine/deprecated.md).
+
+## Products and features
+
+Support for these deprecated or retired features is no longer provided by
+Docker, Inc. The projects that have been transitioned to third parties continue
+to receive updates from their new maintainers.
+
+### Docker Machine
+
+Docker Machine was a tool for provisioning and managing Docker hosts across
+various platforms, including virtual machines and cloud providers. It is no
+longer maintained, and users are encouraged to use [Docker Desktop](/manuals/desktop/_index.md)
+or [Docker Engine](/manuals/engine/_index.md) directly on supported platforms.
+Machine's approach to creating and configuring hosts has been superseded by
+more modern workflows that integrate more closely with Docker Desktop.
+
+### Docker Toolbox
+
+Docker Toolbox was used on older systems where Docker Desktop could not run. It
+bundled Docker Machine, Docker Engine, and Docker Compose into a single
+installer. Toolbox is no longer maintained and is effectively replaced by
+[Docker Desktop](/manuals/desktop/_index.md) on current systems. References to
+Docker Toolbox occasionally appear in older documentation or community
+tutorials, but it is not recommended for new installations.
+
+### Docker Cloud integrations
+
+Docker previously offered integrations for Amazon's Elastic Container Service
+(ECS) and Azure Container Instances (ACI) to streamline container workflows.
+These integrations have been deprecated, and users should now rely on native
+cloud tools or third-party solutions to manage their workloads. The move toward
+platform-specific or universal orchestration tools reduced the need for
+specialized Docker Cloud integrations.
+
+You can still view the relevant documentation for these integrations in the
+[Compose CLI repository](https://github.com/docker-archive/compose-cli/tree/main/docs).
+
+### Docker Enterprise Edition
+
+Docker Enterprise Edition (EE) was Docker's commercial platform for deploying
+and managing large-scale container environments. It was acquired by Mirantis in
+2019, and users looking for enterprise-level functionality can now explore
+Mirantis Kubernetes Engine or other products offered by Mirantis. Much of the
+technology and features found in Docker EE have been absorbed into the Mirantis
+product line.
+
+> [!TIP]  
+> For information about enterprise-level features offered by Docker today,
+> see the [Docker Business subscription](https://www.docker.com/pricing?ref=Docs&refAction=DocsRetired).
+
+### Docker Data Center and Docker Trusted Registry
+
+Docker Data Center (DDC) was an umbrella term that encompassed Docker Universal
+Control Plane (UCP) and Docker Trusted Registry (DTR). These components
+provided a full-stack solution for managing containers, security, and registry
+services in enterprise environments. They are now under the Mirantis portfolio
+following the Docker Enterprise acquisition. Users still encountering
+references to DDC, UCP, or DTR should refer to Mirantis's documentation for
+guidance on modern equivalents.
+
+### Dev Environments
+
+Dev Environments was a feature introduced in Docker Desktop that allowed
+developers to spin up development environments quickly. It was deprecated and removed from Docker Desktop version 4.42 and later. Similar workflows can be achieved through
+Docker Compose or by creating custom configurations tailored to specific
+project requirements.
+
+### Docker Desktop sandboxes
+
+Docker Desktop sandboxes let users run AI coding agents in isolated microVMs
+through the `docker sandbox` command. The `docker sandbox` plugin was removed
+in Docker Desktop 4.80.0. Use the standalone
+[`sbx` CLI](/manuals/ai/sandboxes/_index.md) instead.
+
+### Docker Scout features
+
+The following Docker Scout features have been retired or deprecated. For
+details, see the [Scout platform release notes](/manuals/scout/release-notes/platform.md).
+
+- Health scores and Scout Everywhere: graded Docker Hub images from A to F
+  based on policy compliance, surfaced across Docker Hub. Retired July 1, 2026.
+- Sysdig integration: detected images running in your cluster via the Sysdig API.
+  Retired July 1, 2026.
+- GitHub source code management integration: linked images to their source
+  repository and automated base-image updates via PRs. Retired July 1, 2026.
+  For migration options, see
+  [GitHub integration](/manuals/scout/integrations/source-code-management/github.md).
+- Notifications: alerted users to newly disclosed CVEs in-product and by email.
+  Deprecated, retiring September 1, 2026.
+- Slack integration: sent vulnerability and policy compliance notifications to
+  Slack channels. Deprecated, retiring July 30, 2026. For more information,
+  see [Slack integration](/manuals/scout/integrations/team-collaboration/slack.md).
+- Amazon ECR integration: automatically analyzed images pushed to ECR
+  registries. Deprecated, retiring September 1, 2026. For migration options, see
+  [ECR integration](/manuals/scout/integrations/registry/ecr.md).
+- Azure Container Registry integration: automatically analyzed images pushed to
+  ACR registries. Deprecated, retiring September 1, 2026. For migration options,
+  see [ACR integration](/manuals/scout/integrations/registry/acr.md).
+- Policies page in the Dashboard: the `docker scout policy`
+  CLI continues to work. Deprecated, retiring September 1, 2026. See
+  [Evaluate policies](/manuals/scout/policy/local.md).
+- SonarQube integration: surfaced SonarQube quality gate results as a Docker Scout policy. Deprecated, retiring September 1, 2026.
+
+### GitHub Copilot extension
+
+The Docker for GitHub Copilot extension integrated Docker capabilities with
+GitHub Copilot Chat, helping developers containerize applications, generate
+Docker assets, and analyze vulnerabilities through conversational prompts. The
+extension was available in early access on the GitHub Marketplace. GitHub
+[deprecated Copilot Extensions](https://github.blog/changelog/2025-09-24-deprecate-github-copilot-extensions-github-apps/)
+which led to the retirement of the Docker for GitHub Copilot extension. If
+you're looking for AI-assisted Docker workflows, explore the Docker MCP Toolkit
+and MCP Catalog, or use Gordon in Docker Desktop and the Docker CLI.
+
+### Enhanced Service Account add-ons
+
+Enhanced Service Account add-ons provided tiered pull rate limits for automated
+workflows and service accounts accessing Docker Hub.
+
+Docker recommends transitioning to [Organization Access Tokens
+(OATs)](/manuals/enterprise/security/access-tokens.md), which provide secure,
+programmatic access to Docker Hub with granular repository permissions, token
+expiration, and better security auditing. OATs are included with Docker Team
+and Business subscriptions and offer similar functionality without requiring
+separate add-on purchases.
+
+### Docker Hub Automated Builds
+
+Docker Hub Automated Builds was a feature of Docker Hub that allowed building
+Docker images from source code in an external repository and automatically pushing
+the built image to your Docker repositories. This feature has been deprecated and
+will be removed on April 1, 2027.
+
+### Docker Content Trust (DCT)
+
+Docker Content Trust (DCT) and the Notary v1 service at `notary.docker.io` are
+being fully retired. If you've never set `DOCKER_CONTENT_TRUST=1` or used
+`docker trust` commands, this change doesn't affect you. The service shuts down
+completely on December 8, 2026, following brownout windows in July and August.
+For the timeline, migration guidance, and modern alternatives such as
+Sigstore/Cosign and Notation, see the [Docker Content Trust retirement and
+migration blog post](https://www.docker.com/blog/docker-content-trust-retirement-and-migration-guidance/).
+
+
+## Open source projects
+
+Several open-source projects originally maintained by Docker have been
+archived, discontinued, or transitioned to other maintainers or organizations.
+
+### Registry (now CNCF Distribution)
+
+The Docker Registry served as the open-source implementation of a container
+image registry. It was donated to the Cloud Native Computing Foundation (CNCF)
+in 2019 and is maintained under the name "Distribution." It remains a
+cornerstone for managing and distributing container images.
+
+[CNCF Distribution](https://github.com/distribution/distribution)
+
+### Docker Compose v1 (replaced by Compose v2)
+
+Docker Compose v1 (`docker-compose`), a Python-based tool for defining
+multi-container applications, has been superseded by Compose v2 (`docker
+compose`), which is written in Go and integrates with the Docker CLI. Compose
+v1 is no longer maintained, and users should migrate to Compose v2.
+
+[Compose v2 Documentation](/manuals/compose/_index.md)
+
+### Docker SBOM CLI plugin
+
+The Docker SBOM CLI plugin provided the `docker sbom` command for generating
+and viewing software bill of materials (SBOMs) for container images. The plugin
+is discontinued. Use [`docker scout sbom`](/reference/cli/docker/scout/sbom/)
+for SBOM generation and inspection.
+
+[See Docker SBOM CLI plugin release notes for migration guidance](https://github.com/docker/sbom-cli-plugin/releases/tag/v0.7.0)
+
+### InfraKit
+
+InfraKit was an open-source toolkit designed to manage declarative
+infrastructure and automate container deployments. It has been archived, and
+users are encouraged to explore tools such as Terraform for infrastructure
+provisioning and orchestration.
+
+[InfraKit GitHub Repository](https://github.com/docker/infrakit)
+
+### Docker Notary (now CNCF Notary)
+
+Docker Notary was a system for signing and verifying the authenticity of
+container content. It was donated to the CNCF in 2017 and continues to be
+developed as "Notary." Users seeking secure content verification should consult
+the CNCF Notary project.
+
+[CNCF Notary](https://github.com/notaryproject/notary)
+
+### SwarmKit
+
+SwarmKit powers Docker Swarm mode by providing orchestration for container
+deployments. While Swarm mode remains functional, development has slowed in
+favor of Kubernetes-based solutions. Individuals evaluating container
+orchestration options should investigate whether SwarmKit meets modern workload
+requirements.
+
+[SwarmKit GitHub Repository](https://github.com/docker/swarmkit)
