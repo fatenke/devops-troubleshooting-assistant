@@ -1,0 +1,42 @@
+[
+  {
+    "id": 1,
+    "question": "My Docker container loses data after it is recreated. How can I persist the data?"
+  },
+  {
+    "id": 2,
+    "question": "My application is running inside a Docker container but I cannot access it from my browser. What should I check?"
+  },
+  {
+    "id": 3,
+    "question": "I need to share a directory from my host machine with a Docker container. What should I use?"
+  },
+  {
+    "id": 4,
+    "question": "How can I automatically restart a Docker container when it stops unexpectedly?"
+  },
+  {
+    "id": 5,
+    "question": "How can multiple Docker containers communicate with each other?"
+  },
+  {
+    "id": 6,
+    "question": "How can I configure environment variables for a Docker container?"
+  },
+  {
+    "id": 7,
+    "question": "How can I build a Docker image from a Dockerfile?"
+  },
+  {
+    "id": 8,
+    "question": "How can I investigate why a Docker container stopped?"
+  },
+  {
+    "id": 9,
+    "question": "How can I run several related Docker services together?"
+  },
+  {
+    "id": 10,
+    "question": "What is the recommended way to persist application data independently from a Docker container?"
+  }
+]

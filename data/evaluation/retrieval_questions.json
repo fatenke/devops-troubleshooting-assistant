@@ -1,0 +1,127 @@
+[
+  {
+    "id": 1,
+    "question": "My container loses important files whenever I recreate it. What should I use to keep the data?",
+    "relevant_sources": [
+      "05_persisting_data.md",
+      "persisting-container-data.md",
+      "volumes.md"
+    ]
+  },
+  {
+    "id": 2,
+    "question": "I need files created inside a container to remain available after the container is removed. What is the recommended Docker approach?",
+    "relevant_sources": [
+      "05_persisting_data.md",
+      "persisting-container-data.md",
+      "volumes.md"
+    ]
+  },
+  {
+    "id": 3,
+    "question": "I want a container to access a directory from my host machine and modify the files directly.",
+    "relevant_sources": [
+      "06_bind_mounts.md",
+      "bind-mounts.md"
+    ]
+  },
+  {
+    "id": 4,
+    "question": "Two containers need to communicate with each other. How should I configure their Docker networking?",
+    "relevant_sources": [
+      "07_multi_container.md",
+      "networking.md",
+      "networks.md"
+    ]
+  },
+  {
+    "id": 5,
+    "question": "My application runs inside a container but I cannot access it from my host browser. What should I check?",
+    "relevant_sources": [
+      "port-publishing.md",
+      "publishing-ports.md"
+    ]
+  },
+  {
+    "id": 6,
+    "question": "How can I make an application inside a container reachable through a port on the host?",
+    "relevant_sources": [
+      "port-publishing.md",
+      "publishing-ports.md"
+    ]
+  },
+  {
+    "id": 7,
+    "question": "I need to configure environment variables when starting my container. How can I do that?",
+    "relevant_sources": [
+      "set-environment-variables.md",
+      "services-environment.md"
+    ]
+  },
+  {
+    "id": 8,
+    "question": "My Docker image has become very large. What practices can I use to reduce its size?",
+    "relevant_sources": [
+      "09_image_best.md",
+      "images.md",
+      "writing-a-dockerfile.md"
+    ]
+  },
+  {
+    "id": 9,
+    "question": "I want to create a Docker image for my application from a Dockerfile. What is the basic process?",
+    "relevant_sources": [
+      "dockerfile.md",
+      "writing-a-dockerfile.md",
+      "build-and-push-first-image.md"
+    ]
+  },
+  {
+    "id": 10,
+    "question": "How can I automatically restart a container when the application crashes?",
+    "relevant_sources": [
+      "start-containers-automatically.md"
+    ]
+  },
+  {
+    "id": 11,
+    "question": "How can I configure Docker so that a container starts again automatically after a failure?",
+    "relevant_sources": [
+      "start-containers-automatically.md"
+    ]
+  },
+  {
+    "id": 12,
+    "question": "I want to run several related services together and manage them as one application. What Docker feature should I use?",
+    "relevant_sources": [
+      "08_using_compose.md",
+      "compose.md",
+      "what-is-docker-compose.md"
+    ]
+  },
+  {
+    "id": 13,
+    "question": "My Docker Compose application has several services. How can I start all of them together?",
+    "relevant_sources": [
+      "compose_up.md",
+      "compose.md",
+      "08_using_compose.md"
+    ]
+  },
+  {
+    "id": 14,
+    "question": "How can I see the output produced by a running Docker container to understand what went wrong?",
+    "relevant_sources": [
+      "logs.md"
+    ]
+  },
+  {
+    "id": 15,
+    "question": "I need to investigate the configuration of a container, including its mounts and other runtime settings. What Docker command should I use?",
+    "relevant_sources": [
+      "container.md",
+      "docker-container.md",
+      "inspect-service.md"
+    ]
+  }
+]

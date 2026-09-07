@@ -1,0 +1,878 @@
+{
+  "bm25": {
+    "queries": [
+      {
+        "id": 1,
+        "question": "My container loses important files whenever I recreate it. What should I use to keep the data?",
+        "recall_at_5": 0.0,
+        "precision_at_5": 0.0,
+        "mrr": 0.0,
+        "retrieved_sources": [
+          "genai-leveraging-rag.md",
+          "testcontainers-cloud.md",
+          "genai-leveraging-rag.md",
+          "insights-analytics.md",
+          "insights-analytics.md"
+        ]
+      },
+      {
+        "id": 2,
+        "question": "I need files created inside a container to remain available after the container is removed. What is the recommended Docker approach?",
+        "recall_at_5": 0.0,
+        "precision_at_5": 0.0,
+        "mrr": 0.0,
+        "retrieved_sources": [
+          "language-translation.md",
+          "named-entity-recognition.md",
+          "sentiment-analysis.md",
+          "text-classification.md",
+          "text-summarization.md"
+        ]
+      },
+      {
+        "id": 3,
+        "question": "I want a container to access a directory from my host machine and modify the files directly.",
+        "recall_at_5": 0.5,
+        "precision_at_5": 0.6,
+        "mrr": 1.0,
+        "retrieved_sources": [
+          "bind-mounts.md",
+          "bind-mounts.md",
+          "bind-mounts.md",
+          "workflows.md",
+          "sharing-local-files.md"
+        ]
+      },
+      {
+        "id": 4,
+        "question": "Two containers need to communicate with each other. How should I configure their Docker networking?",
+        "recall_at_5": 0.3333333333333333,
+        "precision_at_5": 0.4,
+        "mrr": 0.3333333333333333,
+        "retrieved_sources": [
+          "run.md",
+          "services-networks.md",
+          "networking.md",
+          "networking-how-tos.md",
+          "networking.md"
+        ]
+      },
+      {
+        "id": 5,
+        "question": "My application runs inside a container but I cannot access it from my host browser. What should I check?",
+        "recall_at_5": 0.0,
+        "precision_at_5": 0.0,
+        "mrr": 0.0,
+        "retrieved_sources": [
+          "genai-leveraging-rag.md",
+          "workflows.md",
+          "mcp-server.md",
+          "networking-how-tos.md",
+          "company-faqs.md"
+        ]
+      },
+      {
+        "id": 6,
+        "question": "How can I make an application inside a container reachable through a port on the host?",
+        "recall_at_5": 0.0,
+        "precision_at_5": 0.0,
+        "mrr": 0.0,
+        "retrieved_sources": [
+          "workflows.md",
+          "claude-code-sandbox-model-runner.md",
+          "databases.md",
+          "v1.19.md",
+          "v1.22.md"
+        ]
+      },
+      {
+        "id": 7,
+        "question": "I need to configure environment variables when starting my container. How can I do that?",
+        "recall_at_5": 0.0,
+        "precision_at_5": 0.0,
+        "mrr": 0.0,
+        "retrieved_sources": [
+          "testcontainers-cloud.md",
+          "docker-compose.md",
+          "multi-container-applications.md",
+          "idp-faqs.md",
+          "claude-code-sandbox-model-runner.md"
+        ]
+      },
+      {
+        "id": 8,
+        "question": "My Docker image has become very large. What practices can I use to reduce its size?",
+        "recall_at_5": 0.0,
+        "precision_at_5": 0.0,
+        "mrr": 0.0,
+        "retrieved_sources": [
+          "linuxfaqs.md",
+          "multi-stage-builds.md",
+          "use-cases.md",
+          "genai-leveraging-rag.md",
+          "macfaqs.md"
+        ]
+      },
+      {
+        "id": 9,
+        "question": "I want to create a Docker image for my application from a Dockerfile. What is the basic process?",
+        "recall_at_5": 0.0,
+        "precision_at_5": 0.0,
+        "mrr": 0.0,
+        "retrieved_sources": [
+          "base-images.md",
+          "use-cases.md",
+          "use-cases.md",
+          "language-translation.md",
+          "named-entity-recognition.md"
+        ]
+      },
+      {
+        "id": 10,
+        "question": "How can I automatically restart a container when the application crashes?",
+        "recall_at_5": 1.0,
+        "precision_at_5": 0.2,
+        "mrr": 0.2,
+        "retrieved_sources": [
+          "deploy.md",
+          "06_bind_mounts.md",
+          "edge-releases-windows.md",
+          "windows-install.md",
+          "start-containers-automatically.md"
+        ]
+      },
+      {
+        "id": 11,
+        "question": "How can I configure Docker so that a container starts again automatically after a failure?",
+        "recall_at_5": 0.0,
+        "precision_at_5": 0.0,
+        "mrr": 0.0,
+        "retrieved_sources": [
+          "awslogs.md",
+          "topics.md",
+          "testcontainers-java-quarkus.md",
+          "domain-faqs.md",
+          "linux-postinstall.md"
+        ]
+      },
+      {
+        "id": 12,
+        "question": "I want to run several related services together and manage them as one application. What Docker feature should I use?",
+        "recall_at_5": 0.0,
+        "precision_at_5": 0.0,
+        "mrr": 0.0,
+        "retrieved_sources": [
+          "multi-container-applications.md",
+          "go-prometheus-monitoring.md",
+          "go-prometheus-monitoring.md",
+          "go-prometheus-monitoring.md",
+          "company-faqs.md"
+        ]
+      },
+      {
+        "id": 13,
+        "question": "My Docker Compose application has several services. How can I start all of them together?",
+        "recall_at_5": 0.0,
+        "precision_at_5": 0.0,
+        "mrr": 0.0,
+        "retrieved_sources": [
+          "go-prometheus-monitoring.md",
+          "go-prometheus-monitoring.md",
+          "go-prometheus-monitoring.md",
+          "gettingstarted.md",
+          "multi-container-applications.md"
+        ]
+      },
+      {
+        "id": 14,
+        "question": "How can I see the output produced by a running Docker container to understand what went wrong?",
+        "recall_at_5": 0.0,
+        "precision_at_5": 0.0,
+        "mrr": 0.0,
+        "retrieved_sources": [
+          "use-cases.md",
+          "use-cases.md",
+          "intro.md",
+          "intro.md",
+          "container.md"
+        ]
+      },
+      {
+        "id": 15,
+        "question": "I need to investigate the configuration of a container, including its mounts and other runtime settings. What Docker command should I use?",
+        "recall_at_5": 0.0,
+        "precision_at_5": 0.0,
+        "mrr": 0.0,
+        "retrieved_sources": [
+          "testcontainers-cloud.md",
+          "docker-overview.md",
+          "alternative-runtimes.md",
+          "docker-overview.md",
+          "multi-container-applications.md"
+        ]
+      }
+    ],
+    "average": {
+      "recall_at_5": 0.12222222222222222,
+      "precision_at_5": 0.08,
+      "mrr": 0.10222222222222221
+    }
+  },
+  "vector": {
+    "queries": [
+      {
+        "id": 1,
+        "question": "My container loses important files whenever I recreate it. What should I use to keep the data?",
+        "recall_at_5": 0.0,
+        "precision_at_5": 0.0,
+        "mrr": 0.0,
+        "retrieved_sources": [
+          "backup-and-restore.md",
+          "backup-and-restore.md",
+          "backup-and-restore.md",
+          "device-mapper-driver.md",
+          "device-mapper-driver.md"
+        ]
+      },
+      {
+        "id": 2,
+        "question": "I need files created inside a container to remain available after the container is removed. What is the recommended Docker approach?",
+        "recall_at_5": 0.3333333333333333,
+        "precision_at_5": 0.2,
+        "mrr": 0.3333333333333333,
+        "retrieved_sources": [
+          "backup-and-restore.md",
+          "backup-and-restore.md",
+          "05_persisting_data.md",
+          "backup-and-restore.md",
+          "06_bind_mounts.md"
+        ]
+      },
+      {
+        "id": 3,
+        "question": "I want a container to access a directory from my host machine and modify the files directly.",
+        "recall_at_5": 0.0,
+        "precision_at_5": 0.0,
+        "mrr": 0.0,
+        "retrieved_sources": [
+          "laravel.md",
+          "sharing-local-files.md",
+          "containers.md",
+          "uninstall.md",
+          "v1.18.md"
+        ]
+      },
+      {
+        "id": 4,
+        "question": "Two containers need to communicate with each other. How should I configure their Docker networking?",
+        "recall_at_5": 0.0,
+        "precision_at_5": 0.0,
+        "mrr": 0.0,
+        "retrieved_sources": [
+          "ipvlan.md",
+          "run.md",
+          "macvlan.md",
+          "overlay.md",
+          "links.md"
+        ]
+      },
+      {
+        "id": 5,
+        "question": "My application runs inside a container but I cannot access it from my host browser. What should I check?",
+        "recall_at_5": 0.0,
+        "precision_at_5": 0.0,
+        "mrr": 0.0,
+        "retrieved_sources": [
+          "v1.23.md",
+          "v1.24.md",
+          "v1.21.md",
+          "v1.22.md",
+          "workflows.md"
+        ]
+      },
+      {
+        "id": 6,
+        "question": "How can I make an application inside a container reachable through a port on the host?",
+        "recall_at_5": 0.0,
+        "precision_at_5": 0.0,
+        "mrr": 0.0,
+        "retrieved_sources": [
+          "v1.13.md",
+          "v1.17.md",
+          "v1.16.md",
+          "v1.14.md",
+          "v1.15.md"
+        ]
+      },
+      {
+        "id": 7,
+        "question": "I need to configure environment variables when starting my container. How can I do that?",
+        "recall_at_5": 0.5,
+        "precision_at_5": 0.2,
+        "mrr": 0.2,
+        "retrieved_sources": [
+          "multi-container-applications.md",
+          "run.md",
+          "compose_run.md",
+          "run.md",
+          "set-environment-variables.md"
+        ]
+      },
+      {
+        "id": 8,
+        "question": "My Docker image has become very large. What practices can I use to reduce its size?",
+        "recall_at_5": 0.0,
+        "precision_at_5": 0.0,
+        "mrr": 0.0,
+        "retrieved_sources": [
+          "multi-stage-builds.md",
+          "linuxfaqs.md",
+          "inference-engines.md",
+          "optimization.md",
+          "macfaqs.md"
+        ]
+      },
+      {
+        "id": 9,
+        "question": "I want to create a Docker image for my application from a Dockerfile. What is the basic process?",
+        "recall_at_5": 0.3333333333333333,
+        "precision_at_5": 0.4,
+        "mrr": 0.3333333333333333,
+        "retrieved_sources": [
+          "golang.md",
+          "text-classification.md",
+          "writing-a-dockerfile.md",
+          "writing-a-dockerfile.md",
+          "base-images.md"
+        ]
+      },
+      {
+        "id": 10,
+        "question": "How can I automatically restart a container when the application crashes?",
+        "recall_at_5": 1.0,
+        "precision_at_5": 0.2,
+        "mrr": 1.0,
+        "retrieved_sources": [
+          "start-containers-automatically.md",
+          "v1.19.md",
+          "v1.17.md",
+          "model_restart-runner.md",
+          "compose_wait.md"
+        ]
+      },
+      {
+        "id": 11,
+        "question": "How can I configure Docker so that a container starts again automatically after a failure?",
+        "recall_at_5": 1.0,
+        "precision_at_5": 0.2,
+        "mrr": 0.5,
+        "retrieved_sources": [
+          "prior-releases.md",
+          "start-containers-automatically.md",
+          "golang.md",
+          "model_restart-runner.md",
+          "v1.19.md"
+        ]
+      },
+      {
+        "id": 12,
+        "question": "I want to run several related services together and manage them as one application. What Docker feature should I use?",
+        "recall_at_5": 0.0,
+        "precision_at_5": 0.0,
+        "mrr": 0.0,
+        "retrieved_sources": [
+          "multi-container-applications.md",
+          "multi-service_container.md",
+          "multi-container-applications.md",
+          "multi-service_container.md",
+          "prior-releases.md"
+        ]
+      },
+      {
+        "id": 13,
+        "question": "My Docker Compose application has several services. How can I start all of them together?",
+        "recall_at_5": 0.3333333333333333,
+        "precision_at_5": 0.2,
+        "mrr": 0.5,
+        "retrieved_sources": [
+          "compose_create.md",
+          "compose.md",
+          "compose_volumes.md",
+          "compose_start.md",
+          "multi-container-applications.md"
+        ]
+      },
+      {
+        "id": 14,
+        "question": "How can I see the output produced by a running Docker container to understand what went wrong?",
+        "recall_at_5": 0.0,
+        "precision_at_5": 0.0,
+        "mrr": 0.0,
+        "retrieved_sources": [
+          "golang.md",
+          "backend-extension-tutorial.md",
+          "golang.md",
+          "compose_logs.md",
+          "multi-container-applications.md"
+        ]
+      },
+      {
+        "id": 15,
+        "question": "I need to investigate the configuration of a container, including its mounts and other runtime settings. What Docker command should I use?",
+        "recall_at_5": 0.0,
+        "precision_at_5": 0.0,
+        "mrr": 0.0,
+        "retrieved_sources": [
+          "prior-releases.md",
+          "private-marketplace.md",
+          "golang.md",
+          "18.09.md",
+          "18.09.md"
+        ]
+      }
+    ],
+    "average": {
+      "recall_at_5": 0.23333333333333334,
+      "precision_at_5": 0.09333333333333334,
+      "mrr": 0.19111111111111112
+    }
+  },
+  "hybrid": {
+    "queries": [
+      {
+        "id": 1,
+        "question": "My container loses important files whenever I recreate it. What should I use to keep the data?",
+        "recall_at_5": 0.3333333333333333,
+        "precision_at_5": 0.2,
+        "mrr": 0.5,
+        "retrieved_sources": [
+          "backup-and-restore.md",
+          "05_persisting_data.md",
+          "genai-leveraging-rag.md",
+          "backup-and-restore.md",
+          "testcontainers-cloud.md"
+        ]
+      },
+      {
+        "id": 2,
+        "question": "I need files created inside a container to remain available after the container is removed. What is the recommended Docker approach?",
+        "recall_at_5": 0.3333333333333333,
+        "precision_at_5": 0.2,
+        "mrr": 0.2,
+        "retrieved_sources": [
+          "backup-and-restore.md",
+          "language-translation.md",
+          "backup-and-restore.md",
+          "named-entity-recognition.md",
+          "05_persisting_data.md"
+        ]
+      },
+      {
+        "id": 3,
+        "question": "I want a container to access a directory from my host machine and modify the files directly.",
+        "recall_at_5": 0.5,
+        "precision_at_5": 0.4,
+        "mrr": 0.3333333333333333,
+        "retrieved_sources": [
+          "sharing-local-files.md",
+          "laravel.md",
+          "bind-mounts.md",
+          "bind-mounts.md",
+          "containers.md"
+        ]
+      },
+      {
+        "id": 4,
+        "question": "Two containers need to communicate with each other. How should I configure their Docker networking?",
+        "recall_at_5": 0.3333333333333333,
+        "precision_at_5": 0.2,
+        "mrr": 0.3333333333333333,
+        "retrieved_sources": [
+          "run.md",
+          "reference.md",
+          "07_multi_container.md",
+          "overlay.md",
+          "macvlan.md"
+        ]
+      },
+      {
+        "id": 5,
+        "question": "My application runs inside a container but I cannot access it from my host browser. What should I check?",
+        "recall_at_5": 0.0,
+        "precision_at_5": 0.0,
+        "mrr": 0.0,
+        "retrieved_sources": [
+          "workflows.md",
+          "v1.23.md",
+          "genai-leveraging-rag.md",
+          "v1.24.md",
+          "v1.21.md"
+        ]
+      },
+      {
+        "id": 6,
+        "question": "How can I make an application inside a container reachable through a port on the host?",
+        "recall_at_5": 0.0,
+        "precision_at_5": 0.0,
+        "mrr": 0.0,
+        "retrieved_sources": [
+          "workflows.md",
+          "v1.16.md",
+          "v1.12.md",
+          "claude-code-sandbox-model-runner.md",
+          "v1.13.md"
+        ]
+      },
+      {
+        "id": 7,
+        "question": "I need to configure environment variables when starting my container. How can I do that?",
+        "recall_at_5": 0.0,
+        "precision_at_5": 0.0,
+        "mrr": 0.0,
+        "retrieved_sources": [
+          "compose_run.md",
+          "multi-container-applications.md",
+          "testcontainers-cloud.md",
+          "run.md",
+          "docker-compose.md"
+        ]
+      },
+      {
+        "id": 8,
+        "question": "My Docker image has become very large. What practices can I use to reduce its size?",
+        "recall_at_5": 0.0,
+        "precision_at_5": 0.0,
+        "mrr": 0.0,
+        "retrieved_sources": [
+          "multi-stage-builds.md",
+          "linuxfaqs.md",
+          "macfaqs.md",
+          "macfaqs.md",
+          "inference-engines.md"
+        ]
+      },
+      {
+        "id": 9,
+        "question": "I want to create a Docker image for my application from a Dockerfile. What is the basic process?",
+        "recall_at_5": 0.3333333333333333,
+        "precision_at_5": 0.2,
+        "mrr": 0.2,
+        "retrieved_sources": [
+          "base-images.md",
+          "golang.md",
+          "text-classification.md",
+          "use-cases.md",
+          "writing-a-dockerfile.md"
+        ]
+      },
+      {
+        "id": 10,
+        "question": "How can I automatically restart a container when the application crashes?",
+        "recall_at_5": 1.0,
+        "precision_at_5": 0.4,
+        "mrr": 1.0,
+        "retrieved_sources": [
+          "start-containers-automatically.md",
+          "start-containers-automatically.md",
+          "deploy.md",
+          "v1.19.md",
+          "06_bind_mounts.md"
+        ]
+      },
+      {
+        "id": 11,
+        "question": "How can I configure Docker so that a container starts again automatically after a failure?",
+        "recall_at_5": 1.0,
+        "precision_at_5": 0.4,
+        "mrr": 1.0,
+        "retrieved_sources": [
+          "start-containers-automatically.md",
+          "start-containers-automatically.md",
+          "prior-releases.md",
+          "awslogs.md",
+          "topics.md"
+        ]
+      },
+      {
+        "id": 12,
+        "question": "I want to run several related services together and manage them as one application. What Docker feature should I use?",
+        "recall_at_5": 0.0,
+        "precision_at_5": 0.0,
+        "mrr": 0.0,
+        "retrieved_sources": [
+          "multi-container-applications.md",
+          "docker-overview.md",
+          "multi-container-applications.md",
+          "multi-service_container.md",
+          "go-prometheus-monitoring.md"
+        ]
+      },
+      {
+        "id": 13,
+        "question": "My Docker Compose application has several services. How can I start all of them together?",
+        "recall_at_5": 0.3333333333333333,
+        "precision_at_5": 0.2,
+        "mrr": 0.3333333333333333,
+        "retrieved_sources": [
+          "compose_create.md",
+          "go-prometheus-monitoring.md",
+          "compose.md",
+          "go-prometheus-monitoring.md",
+          "compose_volumes.md"
+        ]
+      },
+      {
+        "id": 14,
+        "question": "How can I see the output produced by a running Docker container to understand what went wrong?",
+        "recall_at_5": 0.0,
+        "precision_at_5": 0.0,
+        "mrr": 0.0,
+        "retrieved_sources": [
+          "golang.md",
+          "use-cases.md",
+          "backend-extension-tutorial.md",
+          "use-cases.md",
+          "golang.md"
+        ]
+      },
+      {
+        "id": 15,
+        "question": "I need to investigate the configuration of a container, including its mounts and other runtime settings. What Docker command should I use?",
+        "recall_at_5": 0.0,
+        "precision_at_5": 0.0,
+        "mrr": 0.0,
+        "retrieved_sources": [
+          "prior-releases.md",
+          "testcontainers-cloud.md",
+          "private-marketplace.md",
+          "docker-overview.md",
+          "golang.md"
+        ]
+      }
+    ],
+    "average": {
+      "recall_at_5": 0.2777777777777778,
+      "precision_at_5": 0.14666666666666667,
+      "mrr": 0.26
+    }
+  },
+  "hybrid_reranking": {
+    "queries": [
+      {
+        "id": 1,
+        "question": "My container loses important files whenever I recreate it. What should I use to keep the data?",
+        "recall_at_5": 0.3333333333333333,
+        "precision_at_5": 0.4,
+        "mrr": 0.5,
+        "retrieved_sources": [
+          "backup-and-restore.md",
+          "05_persisting_data.md",
+          "05_persisting_data.md",
+          "backup-and-restore.md",
+          "backup-and-restore.md"
+        ]
+      },
+      {
+        "id": 2,
+        "question": "I need files created inside a container to remain available after the container is removed. What is the recommended Docker approach?",
+        "recall_at_5": 0.3333333333333333,
+        "precision_at_5": 0.4,
+        "mrr": 0.3333333333333333,
+        "retrieved_sources": [
+          "backup-and-restore.md",
+          "databases.md",
+          "05_persisting_data.md",
+          "05_persisting_data.md",
+          "device-mapper-driver.md"
+        ]
+      },
+      {
+        "id": 3,
+        "question": "I want a container to access a directory from my host machine and modify the files directly.",
+        "recall_at_5": 0.5,
+        "precision_at_5": 0.6,
+        "mrr": 1.0,
+        "retrieved_sources": [
+          "bind-mounts.md",
+          "bind-mounts.md",
+          "sharing-local-files.md",
+          "sharing-local-files.md",
+          "bind-mounts.md"
+        ]
+      },
+      {
+        "id": 4,
+        "question": "Two containers need to communicate with each other. How should I configure their Docker networking?",
+        "recall_at_5": 0.6666666666666666,
+        "precision_at_5": 0.4,
+        "mrr": 0.5,
+        "retrieved_sources": [
+          "run.md",
+          "07_multi_container.md",
+          "networking.md",
+          "bridge.md",
+          "overlay.md"
+        ]
+      },
+      {
+        "id": 5,
+        "question": "My application runs inside a container but I cannot access it from my host browser. What should I check?",
+        "recall_at_5": 0.0,
+        "precision_at_5": 0.0,
+        "mrr": 0.0,
+        "retrieved_sources": [
+          "networking-how-tos.md",
+          "workflows.md",
+          "v1.4.md",
+          "jupyter.md",
+          "claude-code-sandbox-model-runner.md"
+        ]
+      },
+      {
+        "id": 6,
+        "question": "How can I make an application inside a container reachable through a port on the host?",
+        "recall_at_5": 0.0,
+        "precision_at_5": 0.0,
+        "mrr": 0.0,
+        "retrieved_sources": [
+          "databases.md",
+          "v1.15.md",
+          "v1.16.md",
+          "links.md",
+          "workflows.md"
+        ]
+      },
+      {
+        "id": 7,
+        "question": "I need to configure environment variables when starting my container. How can I do that?",
+        "recall_at_5": 0.5,
+        "precision_at_5": 0.4,
+        "mrr": 0.5,
+        "retrieved_sources": [
+          "run.md",
+          "set-environment-variables.md",
+          "set-environment-variables.md",
+          "variable-interpolation.md",
+          "reference.md"
+        ]
+      },
+      {
+        "id": 8,
+        "question": "My Docker image has become very large. What practices can I use to reduce its size?",
+        "recall_at_5": 0.0,
+        "precision_at_5": 0.0,
+        "mrr": 0.0,
+        "retrieved_sources": [
+          "multi-stage-builds.md",
+          "optimization.md",
+          "optimize.md",
+          "macfaqs.md",
+          "linuxfaqs.md"
+        ]
+      },
+      {
+        "id": 9,
+        "question": "I want to create a Docker image for my application from a Dockerfile. What is the basic process?",
+        "recall_at_5": 0.3333333333333333,
+        "precision_at_5": 0.2,
+        "mrr": 0.2,
+        "retrieved_sources": [
+          "golang.md",
+          "text-classification.md",
+          "base-images.md",
+          "context.md",
+          "writing-a-dockerfile.md"
+        ]
+      },
+      {
+        "id": 10,
+        "question": "How can I automatically restart a container when the application crashes?",
+        "recall_at_5": 1.0,
+        "precision_at_5": 0.6,
+        "mrr": 1.0,
+        "retrieved_sources": [
+          "start-containers-automatically.md",
+          "deploy.md",
+          "start-containers-automatically.md",
+          "start-containers-automatically.md",
+          "docker-container.md"
+        ]
+      },
+      {
+        "id": 11,
+        "question": "How can I configure Docker so that a container starts again automatically after a failure?",
+        "recall_at_5": 1.0,
+        "precision_at_5": 0.6,
+        "mrr": 1.0,
+        "retrieved_sources": [
+          "start-containers-automatically.md",
+          "awslogs.md",
+          "start-containers-automatically.md",
+          "golang.md",
+          "start-containers-automatically.md"
+        ]
+      },
+      {
+        "id": 12,
+        "question": "I want to run several related services together and manage them as one application. What Docker feature should I use?",
+        "recall_at_5": 0.0,
+        "precision_at_5": 0.0,
+        "mrr": 0.0,
+        "retrieved_sources": [
+          "multi-container-applications.md",
+          "multi-container-applications.md",
+          "go-prometheus-monitoring.md",
+          "go-prometheus-monitoring.md",
+          "what-is-a-container.md"
+        ]
+      },
+      {
+        "id": 13,
+        "question": "My Docker Compose application has several services. How can I start all of them together?",
+        "recall_at_5": 0.0,
+        "precision_at_5": 0.0,
+        "mrr": 0.0,
+        "retrieved_sources": [
+          "gettingstarted.md",
+          "go-prometheus-monitoring.md",
+          "go-prometheus-monitoring.md",
+          "go-prometheus-monitoring.md",
+          "gettingstarted.md"
+        ]
+      },
+      {
+        "id": 14,
+        "question": "How can I see the output produced by a running Docker container to understand what went wrong?",
+        "recall_at_5": 0.0,
+        "precision_at_5": 0.0,
+        "mrr": 0.0,
+        "retrieved_sources": [
+          "what-is-a-container.md",
+          "golang.md",
+          "intro.md",
+          "intro.md",
+          "backend-extension-tutorial.md"
+        ]
+      },
+      {
+        "id": 15,
+        "question": "I need to investigate the configuration of a container, including its mounts and other runtime settings. What Docker command should I use?",
+        "recall_at_5": 0.0,
+        "precision_at_5": 0.0,
+        "mrr": 0.0,
+        "retrieved_sources": [
+          "device-mapper-driver.md",
+          "docker-overview.md",
+          "get-docker-desktop.md",
+          "18.09.md",
+          "dockerd.md"
+        ]
+      }
+    ],
+    "average": {
+      "recall_at_5": 0.3111111111111111,
+      "precision_at_5": 0.24000000000000002,
+      "mrr": 0.33555555555555555
+    }
+  }
+}
