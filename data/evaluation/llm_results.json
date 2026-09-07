@@ -1,0 +1,623 @@
+{
+  "evaluation": {
+    "llm_model": "openai/gpt-oss-20b",
+    "retrieval_method": "hybrid_reranking",
+    "retrieval_candidates": 20,
+    "top_k": 5,
+    "num_questions": 10,
+    "prompt_strategies": [
+      "basic",
+      "grounded"
+    ],
+    "metrics": [
+      "relevance",
+      "groundedness",
+      "correctness"
+    ],
+    "note": "The scores are heuristic automatic indicators. They should be complemented with manual evaluation or reference answers for a stronger LLM evaluation."
+  },
+  "summary": {
+    "basic": {
+      "relevance": 1.0,
+      "groundedness": 0.369,
+      "correctness": 0.684
+    },
+    "grounded": {
+      "relevance": 0.991,
+      "groundedness": 0.466,
+      "correctness": 0.728
+    }
+  },
+  "results": [
+    {
+      "id": 1,
+      "question": "My Docker container loses data after it is recreated. How can I persist the data?",
+      "rewritten_query": "Docker persist data after container recreation volumes official documentation search query",
+      "retrieval_method": "hybrid_reranking",
+      "retrieval": [
+        {
+          "chunk_id": 6598,
+          "source": "kubernetes.md",
+          "category": "docker",
+          "rerank_score": 2.7531509399414062,
+          "rrf_score": 0.014925373134328358
+        },
+        {
+          "chunk_id": 3856,
+          "source": "databases.md",
+          "category": "docker",
+          "rerank_score": 1.9460747241973877,
+          "rrf_score": 0.014492753623188406
+        },
+        {
+          "chunk_id": 8037,
+          "source": "persisting-container-data.md",
+          "category": "docker",
+          "rerank_score": 1.7775111198425293,
+          "rrf_score": 0.03177805800756621
+        },
+        {
+          "chunk_id": 8039,
+          "source": "persisting-container-data.md",
+          "category": "docker",
+          "rerank_score": 1.6842552423477173,
+          "rrf_score": 0.02804284323271665
+        },
+        {
+          "chunk_id": 34,
+          "source": "05_persisting_data.md",
+          "category": "docker",
+          "rerank_score": 1.6254712343215942,
+          "rrf_score": 0.01639344262295082
+        }
+      ],
+      "basic": {
+        "answer": "When a container is removed or recreated, everything that lived in its writable layer disappears.  \nTo keep data across container lifecycles you need to **mount a Docker volume** (or a bind‑mount) into the container.  \nA volume lives outside the container, so it survives restarts, upgrades, and even the removal of the container that uses it.\n\n---\n\n## 1. Create a volume\n\n```bash\n# Create a named volume (e.g. for a database)\ndocker volume create my‑db‑data\n```\n\n> You can also let Docker create an anonymous volume by omitting the name, but a named volume is easier to manage later.\n\n---\n\n## 2. Run the container with the volume attached\n\n### Using the Docker CLI\n\n```bash\ndocker run -d \\\n  --name my‑db \\\n  -v my‑db‑data:/var/lib/postgresql/data \\   # <-- mount point inside the container\n  postgres:15\n```\n\n* `-v <volume-name>:<container-path>` tells Docker to mount the volume at the specified path inside the container.  \n* The data written to `/var/lib/postgresql/data` will now be stored in the volume `my‑db‑data`.\n\n### Using Docker Desktop GUI\n\n1. Open **Containers / Apps** → **Create**.  \n2. In the **Volumes** section, click **Add Volume**.  \n3. Give it a name (e.g., `my-db-data`) and set the container path to the directory that the app writes to (e.g., `/var/lib/postgresql/data`).  \n4. Finish creating the container.\n\n---\n\n## 3. Verify the volume is being used\n\n```bash\ndocker inspect my‑db\n```\n\nLook for the `Mounts` section; you should see something like:\n\n```json\n\"Mounts\": [\n  {\n    \"Type\": \"volume\",\n    \"Name\": \"my-db-data\",\n    \"Source\": \"/var/lib/docker/volumes/my-db-data/_data\",\n    \"Destination\": \"/var/lib/postgresql/data\",\n    \"Driver\": \"local\",\n    \"Mode\": \"\",\n    \"RW\": true,\n    \"Propagation\": \"\"\n  }\n]\n```\n\n---\n\n## 4. Managing volumes\n\n| Command | What it does |\n|---------|--------------|\n| `docker volume ls` | List all volumes |\n| `docker volume inspect <name>` | Show details (including mount point) |\n| `docker volume rm <name>` | Remove a volume (only if no container uses it) |\n| `docker volume prune` | Remove all unused volumes |\n\n---\n\n## 5. Common pitfalls\n\n| Issue | Fix |\n|-------|-----|\n| **Data still lost after container recreation** | Make sure the container writes to the volume path, not to a sub‑directory inside the container that isn’t mounted. |\n| **Volume not found** | Verify the volume name is correct and that you didn’t accidentally create an anonymous volume. |\n| **Permission errors** | Ensure the user inside the container has write permission to the mounted directory. |\n\n---\n\n## Quick example: Persisting a simple “todo” app\n\n```bash\n# 1. Create volume\ndocker volume create todo-db\n\n# 2. Run the app with the volume\ndocker run -d \\\n  --name todo-app \\\n  -v todo-db:/app/data \\\n  my‑todo‑image\n```\n\nAfter stopping and removing the container:\n\n```bash\ndocker stop todo-app\ndocker rm todo-app\n```\n\nYou can start a fresh container that re‑uses the same volume:\n\n```bash\ndocker run -d \\\n  --name todo-app-new \\\n  -v todo-db:/app/data \\\n  my‑todo‑image\n```\n\nAll data in `/app/data` will be preserved.\n\n---\n\n### Bottom line\n\n- **Create a Docker volume** (`docker volume create <name>`).  \n- **Mount it** into the container at the directory where the application writes data (`-v <name>:<container‑path>`).  \n- The volume’s data lives outside the container, so recreating the container will not erase it.\n\nThat’s all you need to keep your container data persistent. Happy Docker‑ing!",
+        "scores": {
+          "relevance": 1.0,
+          "groundedness": 0.394,
+          "correctness": 0.697
+        }
+      },
+      "grounded": {
+        "answer": "To keep data when a container is removed and recreated, mount a Docker **volume** into the container.  \nA volume lives outside the container’s writable layer, so its contents survive container restarts or deletions.\n\n**Steps**\n\n1. **Create a volume** (once)  \n   ```bash\n   docker volume create my‑data\n   ```\n\n2. **Run the container with the volume mounted**  \n   ```bash\n   docker run -d \\\n     -v my‑data:/path/inside/container \\\n     <image>\n   ```\n   Replace `/path/inside/container` with the directory that the application writes to (e.g., `/var/lib/postgresql` for a database).\n\n3. **Verify the volume**  \n   ```bash\n   docker volume inspect my‑data\n   ```\n\n4. **Manage volumes** (optional)  \n   ```bash\n   docker volume ls          # list all volumes\n   docker volume rm my‑data  # remove when no longer needed\n   docker volume prune       # clean up unused volumes\n   ```\n\n**Why this works**  \n- Volumes have a lifecycle independent of containers.  \n- Data written to the mounted path is stored in the volume’s mount point on the host (`/var/lib/docker/volumes/<name>/_data`).  \n- When the container is recreated, Docker re‑attaches the same volume, preserving the data.\n\n**References**  \n- *Docker volume* section (kubernetes.md) – explains using volumes for persistence.  \n- *Persist database data in a volume* (databases.md) – shows attaching a volume to a database container.  \n- *Container volumes* and *Managing volumes* (persisting-container-data.md) – details commands and lifecycle.",
+        "scores": {
+          "relevance": 1.0,
+          "groundedness": 0.52,
+          "correctness": 0.76
+        }
+      }
+    },
+    {
+      "id": 2,
+      "question": "My application is running inside a Docker container but I cannot access it from my browser. What should I check?",
+      "rewritten_query": "Docker container not accessible from host browser – check port mapping, network mode, and exposed ports in Docker documentation.",
+      "retrieval_method": "hybrid_reranking",
+      "retrieval": [
+        {
+          "chunk_id": 1029,
+          "source": "27.md",
+          "category": "docker",
+          "rerank_score": 6.214569091796875,
+          "rrf_score": 0.03128054740957967
+        },
+        {
+          "chunk_id": 8214,
+          "source": "port-publishing.md",
+          "category": "docker",
+          "rerank_score": 5.495138645172119,
+          "rrf_score": 0.032018442622950824
+        },
+        {
+          "chunk_id": 8198,
+          "source": "port-publishing.md",
+          "category": "docker",
+          "rerank_score": 5.434433937072754,
+          "rrf_score": 0.01639344262295082
+        },
+        {
+          "chunk_id": 8213,
+          "source": "port-publishing.md",
+          "category": "docker",
+          "rerank_score": 5.076291084289551,
+          "rrf_score": 0.015151515151515152
+        },
+        {
+          "chunk_id": 8197,
+          "source": "port-publishing.md",
+          "category": "docker",
+          "rerank_score": 4.915806770324707,
+          "rrf_score": 0.015873015873015872
+        }
+      ],
+      "basic": {
+        "answer": "**Quick checklist for “I can’t reach my container from the browser”**\n\n| # | What to check | Why it matters | How to verify / fix |\n|---|---------------|----------------|---------------------|\n| 1 | **Container is actually running** | If the container stopped, nothing will listen. | `docker ps` – look for your container. |\n| 2 | **Port is published** | Docker only exposes ports that you explicitly publish. | `docker ps --format '{{.Ports}}'` or `docker inspect <id> --format '{{json .NetworkSettings.Ports}}'`. You should see something like `80/tcp:[{\"HostIp\":\"0.0.0.0\",\"HostPort\":\"8080\"}]`. |\n| 3 | **Correct host port** | The browser must hit the host port you mapped. | In the example above, go to `http://<host-ip>:8080`. |\n| 4 | **Binding address** | By default Docker binds to `0.0.0.0` (all IPv4) and `[::]` (all IPv6). If you bound only to `127.0.0.1` or a specific IP, you’ll be able to reach it only from that IP. | Check the `HostIp` field in the inspect output. If it’s `127.0.0.1`, change the run command to `-p 8080:80` (no IP) or `-p 0.0.0.0:8080:80`. |\n| 5 | **Network mode** | On a bridge network, published ports are reachable from the host and any container on the same network. On a user‑defined network with `--ipv6` and `gateway_mode_ipv6=routed`, the container’s IPv6 port is open on the container’s IP, not on the host. | If you’re using a custom network, run `docker network inspect <name>` to see its driver and options. |\n| 6 | **Firewall / iptables** | Docker creates NAT and MASQUERADE rules, but host firewalls (ufw, firewalld, etc.) can block the host port. | `sudo iptables -L -n -v | grep 8080` (or `sudo ufw status` / `sudo firewall-cmd --list-all`). If blocked, allow the port: `sudo ufw allow 8080/tcp` or `sudo firewall-cmd --add-port=8080/tcp --permanent && sudo firewall-cmd --reload`. |\n| 7 | **IPv6 routing (if using routed mode)** | In routed mode, the container’s IPv6 port is reachable only if the host’s network routes to the container’s IP. | Verify that the host can ping the container’s IPv6 address (`docker exec <id> ip -6 addr`). If not, ensure the host’s routing table includes the container’s subnet or that the network is properly bridged. |\n| 8 | **Application listening on the right interface** | If the app listens only on `127.0.0.1` inside the container, Docker’s NAT won’t forward traffic. | Inside the container, run `netstat -tlnp | grep :80` or `ss -tlnp`. It should show `0.0.0.0:80` or `:::80`. If it shows `127.0.0.1:80`, reconfigure the app to listen on all interfaces. |\n| 9 | **Correct protocol** | Browsers use TCP. If you accidentally published a UDP port, it won’t work. | Inspect the mapping: `80/tcp` vs `80/udp`. |\n|10 | **Host IP you’re using in the browser** | If you’re on a different machine, you must use the host’s external IP or a DNS name that resolves to it. | `hostname -I` or `ip addr show` on the host. |\n|11 | **Docker daemon configuration** | Rarely, the daemon may be configured to bind only to a specific IP (`--ip-forward=false`, `--iptables=false`). | Check `/etc/docker/daemon.json` for `iptables` or `ip-forward` settings. |\n\n---\n\n### Step‑by‑step example\n\nSuppose you ran:\n\n```bash\ndocker run --network=mynet -p 8080:80 myimage",
+        "scores": {
+          "relevance": 1.0,
+          "groundedness": 0.336,
+          "correctness": 0.668
+        }
+      },
+      "grounded": {
+        "answer": "**What to check when a container‑hosted app isn’t reachable from a browser**\n\n| Check | Why it matters | How to verify / fix |\n|-------|----------------|---------------------|\n| **Port was published** | Docker blocks all container ports unless they are explicitly published. | Run `docker ps` or `docker container inspect <id> --format \"{{json .NetworkSettings.Ports}}\"` to see if the container’s port (e.g. 80) appears in the `Ports` map. If it’s missing, start the container with `-p <hostPort>:<containerPort>` (e.g. `-p 8080:80`). |\n| **Correct host address** | By default Docker publishes to all host addresses (`0.0.0.0` and `[::]`). If you bound only to `::` (IPv6) or to a specific IPv4 address, the browser may be trying the wrong address. | Check the `HostIp` field in the inspect output. If it’s `::` and you’re connecting via IPv4, add an IPv4 binding (`-p 0.0.0.0:8080:80`) or use the host’s IPv4 address. |\n| **Network mode** | On bridge networks, ports are only reachable from the host unless published. On `routed` mode, the container’s IP is reachable if routing is set up. | Verify the network type (`docker network inspect <network>`). If you need external access, use `-p` on a bridge network or ensure routing is configured for a routed network. |\n| **Firewall / iptables** | Docker creates NAT/PAT rules; host firewall may still block the port. | Check that the host firewall allows traffic on the host port (e.g. `8080`). If using a custom firewall, add a rule to allow inbound TCP on that port. |\n| **IPv6 vs IPv4** | If you published only IPv6 (`-p '[::]::80'`) the app won’t be reachable over IPv4. | Ensure you publish both protocols (`-p 8080:80` publishes IPv4; add `-p '[::]::80'` for IPv6 if needed). |\n| **Container listening on correct interface** | The app inside the container must listen on `0.0.0.0` or the container’s IP, not just `localhost`. | Inside the container, confirm the service is bound to `0.0.0.0` (e.g. `netstat -tuln`). |\n\n**Bottom line**  \nMake sure the container’s port is published with `-p`, that the host address binding matches the protocol you’re using, and that no host firewall is blocking the host port. If you’re on a routed network, confirm routing is configured; otherwise, use a bridge network with a published port.",
+        "scores": {
+          "relevance": 1.0,
+          "groundedness": 0.454,
+          "correctness": 0.727
+        }
+      }
+    },
+    {
+      "id": 3,
+      "question": "I need to share a directory from my host machine with a Docker container. What should I use?",
+      "rewritten_query": "Docker bind mount host directory to container in official Docker documentation",
+      "retrieval_method": "hybrid_reranking",
+      "retrieval": [
+        {
+          "chunk_id": 9977,
+          "source": "sharing-local-files.md",
+          "category": "docker",
+          "rerank_score": 5.30778694152832,
+          "rrf_score": 0.014925373134328358
+        },
+        {
+          "chunk_id": 2397,
+          "source": "bind-mounts.md",
+          "category": "docker",
+          "rerank_score": 5.21762228012085,
+          "rrf_score": 0.03278688524590164
+        },
+        {
+          "chunk_id": 2412,
+          "source": "bind-mounts.md",
+          "category": "docker",
+          "rerank_score": 5.1602277755737305,
+          "rrf_score": 0.014084507042253521
+        },
+        {
+          "chunk_id": 2396,
+          "source": "bind-mounts.md",
+          "category": "docker",
+          "rerank_score": 5.145118713378906,
+          "rrf_score": 0.029957522915269395
+        },
+        {
+          "chunk_id": 9976,
+          "source": "sharing-local-files.md",
+          "category": "docker",
+          "rerank_score": 5.128030776977539,
+          "rrf_score": 0.015384615384615385
+        }
+      ],
+      "basic": {
+        "answer": "To share a host directory with a container you should use a **bind mount**.\n\n**Preferred syntax**\n\n```bash\ndocker run --mount type=bind,source=/path/on/host,target=/path/in/container,readonly  nginx\n```\n\n* `type=bind` – tells Docker this is a bind mount.  \n* `source=` – the absolute path on the host.  \n* `target=` – the path inside the container.  \n* `readonly` (or `rw`) – sets the mount to read‑only or read‑write.\n\n**Short‑hand syntax (works the same)**\n\n```bash\ndocker run -v /path/on/host:/path/in/container:ro  nginx\n```\n\n* `-v` (or `--volume`) is the older form; it’s still supported but less explicit.  \n* `:ro` makes the mount read‑only; omit it or use `:rw` for read‑write.\n\n**Permissions**\n\nMake sure Docker can read/write the host directory. If you need write access, use `:rw` (or omit the flag, as `rw` is the default). If you only need to read, use `:ro` to avoid accidental modifications.\n\n**Why use `--mount`?**\n\n* More explicit and supports all options (e.g., `readonly`, `consistency`, `bind-propagation`).  \n* Avoids accidental creation of missing directories (it will error instead).  \n* Recommended by Docker for production‑grade setups.\n\nSo, to share a directory, pick the `--mount` syntax (or `-v` if you prefer brevity) and specify the host path, container path, and desired read/write mode.",
+        "scores": {
+          "relevance": 1.0,
+          "groundedness": 0.535,
+          "correctness": 0.768
+        }
+      },
+      "grounded": {
+        "answer": "Use a **bind mount**.  \nThe most explicit syntax is `--mount`, but `-v` works the same.\n\n```bash\n# Read‑write bind mount\ndocker run --mount type=bind,source=/HOST/DIR,target=/CONTAINER/DIR,readonly=false  nginx\n# or\ndocker run -v /HOST/DIR:/CONTAINER/DIR:rw  nginx\n```\n\nReplace `/HOST/DIR` with the directory on your host and `/CONTAINER/DIR` with the path inside the container.  \n(Use `:ro` for read‑only.)  \n\n**Sources**: *bind-mounts.md*, *sharing-local-files.md*",
+        "scores": {
+          "relevance": 0.909,
+          "groundedness": 0.69,
+          "correctness": 0.799
+        }
+      }
+    },
+    {
+      "id": 4,
+      "question": "How can I automatically restart a Docker container when it stops unexpectedly?",
+      "rewritten_query": "Docker restart policy automatically restart container when it stops unexpectedly",
+      "retrieval_method": "hybrid_reranking",
+      "retrieval": [
+        {
+          "chunk_id": 10163,
+          "source": "start-containers-automatically.md",
+          "category": "docker",
+          "rerank_score": 7.603085994720459,
+          "rrf_score": 0.03177805800756621
+        },
+        {
+          "chunk_id": 10161,
+          "source": "start-containers-automatically.md",
+          "category": "docker",
+          "rerank_score": 7.531856536865234,
+          "rrf_score": 0.032018442622950824
+        },
+        {
+          "chunk_id": 10160,
+          "source": "start-containers-automatically.md",
+          "category": "docker",
+          "rerank_score": 7.056177139282227,
+          "rrf_score": 0.03128054740957967
+        },
+        {
+          "chunk_id": 9866,
+          "source": "services.md",
+          "category": "docker",
+          "rerank_score": 6.326174736022949,
+          "rrf_score": 0.031054405392392875
+        },
+        {
+          "chunk_id": 10162,
+          "source": "start-containers-automatically.md",
+          "category": "docker",
+          "rerank_score": 6.119239807128906,
+          "rrf_score": 0.031746031746031744
+        }
+      ],
+      "basic": {
+        "answer": "To make Docker bring a container back up automatically when it crashes or exits with a non‑zero status, you attach a **restart policy** to the container.  \nThe policy is evaluated by the Docker daemon after the container has started successfully (i.e., it has been running for at least 10 s).  \n\nBelow are the most common ways to set this up.\n\n---\n\n## 1. Start a new container with a restart policy\n\n```bash\n# Always restart the container, even after a crash or a daemon restart\ndocker run -d --name myapp --restart always myimage\n\n# Restart unless the container is explicitly stopped\ndocker run -d --name myapp --restart unless-stopped myimage\n```\n\n* `always` – Docker will keep trying to restart the container until you remove it.  \n* `unless-stopped` – Same as `always`, but if you stop the container manually it will **not** be restarted until the daemon itself is restarted or you start it again.\n\n---\n\n## 2. Change the policy on an already‑running container\n\n```bash\n# Change the policy for a running container named “myapp”\ndocker update --restart unless-stopped myapp\n```\n\nYou can apply the same policy to all running containers:\n\n```bash\ndocker update --restart unless-stopped $(docker ps -q)\n```\n\n---\n\n## 3. Use a policy that only restarts on failure\n\nIf you want Docker to restart only when the container exits with a non‑zero exit code:\n\n```bash\ndocker run -d --name myapp --restart on-failure:5 myimage\n```\n\n* `on-failure` – Restarts only on error.  \n* `:5` – Optional maximum number of restart attempts (here, 5).  \n  If omitted, Docker will keep retrying indefinitely.\n\n---\n\n## 4. Restart policies for Docker Swarm services\n\nRestart policies are applied at the **service** level, not the container level.  \nUse the `--restart-condition` flag when creating or updating a service:\n\n```bash\ndocker service create \\\n  --name myservice \\\n  --restart-condition any \\\n  myimage\n```\n\n* `any` – Restart on any exit (equivalent to `always`).  \n* `on-failure` – Restart only on non‑zero exit codes.  \n* `none` – No automatic restart.\n\n---\n\n## 5. Important notes\n\n| Point | Explanation |\n|-------|-------------|\n| **Policy takes effect only after a successful start** | Prevents a container that never starts from looping endlessly. |\n| **Manual stop is ignored until daemon restart** | If you run `docker stop myapp`, Docker will not restart it until you either start it again or restart the Docker daemon. |\n| **Daemon restart resets the policy** | After the Docker daemon restarts, the policy is re‑applied to all containers that were running before the restart. |\n| **Swarm services** | Use service‑level restart flags; container‑level flags are ignored. |\n\n---\n\n### Quick recap\n\n| Scenario | Command |\n|----------|---------|\n| New container, always restart | `docker run -d --restart always …` |\n| New container, restart unless stopped | `docker run -d --restart unless-stopped …` |\n| Existing container, change policy | `docker update --restart unless-stopped <container>` |\n| Restart only on failure (max 3 attempts) | `docker run -d --restart on-failure:3 …` |\n| Swarm service, restart on any exit | `docker service create --restart-condition any …` |\n\nUsing these commands, Docker will automatically bring your container back up whenever it stops unexpectedly.",
+        "scores": {
+          "relevance": 1.0,
+          "groundedness": 0.484,
+          "correctness": 0.742
+        }
+      },
+      "grounded": {
+        "answer": "To have Docker automatically restart a container that stops unexpectedly, set a restart policy when you start the container (or update an existing one).\n\n**Start a new container with automatic restart**\n\n```bash\ndocker run -d --name <name> --restart always <image>\n```\n\n* `--restart always` tells Docker to restart the container whenever it exits, unless you manually stop it.  \n* The policy takes effect only after the container has started successfully (at least 10 s) and Docker is monitoring it.\n\n**Change the policy on a running container**\n\n```bash\ndocker update --restart always <name>\n```\n\n**Apply the policy to all running containers**\n\n```bash\ndocker update --restart always $(docker ps -q)\n```\n\nThese commands use the `always` restart policy, which is the most common choice for automatically recovering from unexpected stops. (See the “Restarting foreground containers” table and the `docker run`/`docker update` examples in the documentation.)",
+        "scores": {
+          "relevance": 1.0,
+          "groundedness": 0.647,
+          "correctness": 0.824
+        }
+      }
+    },
+    {
+      "id": 5,
+      "question": "How can multiple Docker containers communicate with each other?",
+      "rewritten_query": "Docker networking: how to enable communication between multiple containers in a user‑defined bridge network",
+      "retrieval_method": "hybrid_reranking",
+      "retrieval": [
+        {
+          "chunk_id": 7919,
+          "source": "overlay.md",
+          "category": "docker",
+          "rerank_score": 6.643041133880615,
+          "rrf_score": 0.02871794871794872
+        },
+        {
+          "chunk_id": 6838,
+          "source": "links.md",
+          "category": "docker",
+          "rerank_score": 6.007844924926758,
+          "rrf_score": 0.029551337359792925
+        },
+        {
+          "chunk_id": 6839,
+          "source": "links.md",
+          "category": "docker",
+          "rerank_score": 5.707389831542969,
+          "rrf_score": 0.028404512489927477
+        },
+        {
+          "chunk_id": 2429,
+          "source": "bridge.md",
+          "category": "docker",
+          "rerank_score": 5.6976447105407715,
+          "rrf_score": 0.015625
+        },
+        {
+          "chunk_id": 2435,
+          "source": "bridge.md",
+          "category": "docker",
+          "rerank_score": 5.680145263671875,
+          "rrf_score": 0.016129032258064516
+        }
+      ],
+      "basic": {
+        "answer": "**Short answer**\n\nGive every container that needs to talk to each other the *same user‑defined network* (bridge or overlay).  \nOnce they’re on that network Docker gives each container a DNS name equal to its container name (or the service name in a compose/swarm file), so you can reach it simply with `http://<container‑name>:<port>` or `tcp://<container‑name>:<port>`.\n\n---\n\n## 1. Create a user‑defined network\n\n```bash\n# A simple bridge network (same host)\ndocker network create my‑net\n\n# An overlay network (multiple hosts, Swarm or Docker‑Engine‑cluster)\ndocker network create --driver overlay my‑overlay\n```\n\n> **Why a user‑defined network?**  \n> The default `bridge` network is isolated; containers on it can’t see each other unless you publish ports or use `--link`.  \n> User‑defined networks automatically set up DNS and allow containers to resolve each other by name.\n\n---\n\n## 2. Run containers on that network\n\n```bash\ndocker run -d --name webapp --network my‑net nginx\ndocker run -d --name db --network my‑net mysql\n```\n\nNow `webapp` can reach `db` at `mysql:3306` (or `db:3306` if you use the container name).  \nThe reverse is also true.\n\nIf you need to expose a port to the host or to other networks, use `-p`:\n\n```bash\ndocker run -d --name webapp --network my‑net -p 8080:80 nginx\n```\n\nOnly the published port (`8080`) is reachable from outside the network; inside the network the container still listens on port `80`.\n\n---\n\n## 3. Using Docker Compose\n\nCompose automatically creates a network named after the project (or you can define one):\n\n```yaml\n# docker-compose.yml\nversion: \"3.8\"\n\nservices:\n  web:\n    image: nginx\n    ports: [\"8080:80\"]\n  db:\n    image: mysql\n    environment:\n      MYSQL_ROOT_PASSWORD: secret\n```\n\nRunning `docker compose up -d` will create a network (e.g., `myproject_default`) and connect both services to it.  \nThey can talk via `db:3306` or `web:80`.\n\n---\n\n## 4. Swarm services (multi‑host)\n\n```bash\ndocker service create --name web --network my‑overlay -p 80:80 nginx\ndocker service create --name db --network my‑overlay mysql\n```\n\nAll services on the same overlay network can resolve each other by service name (`web`, `db`).  \nOverlay networks encrypt traffic between hosts when the Swarm is configured with TLS.\n\n---\n\n## 5. Legacy `--link` (not recommended)\n\n```bash\ndocker run -d --name db mysql\ndocker run -d --name web --link db:db nginx\n```\n\n`--link` injects environment variables and DNS entries, but it’s deprecated and will eventually be removed. Prefer user‑defined networks instead.\n\n---\n\n## 6. Summary of key points\n\n| Feature | What it does | When to use |\n|---------|--------------|-------------|\n| **User‑defined bridge** | Containers on the same host can talk by name; DNS auto‑resolved | Single‑host setups |\n| **Overlay** | Same as bridge but spans multiple hosts; encrypted by default | Swarm or multi‑host clusters |\n| **`--link`** | Legacy, injects env vars | Only if you must support very old Docker versions |\n| **Published ports (`-p`)** | Expose container ports to the host or other networks | When you need external access |\n| **Compose / Swarm** | Declarative service definition + automatic networking | Production or multi‑container apps |\n\n---\n\n### Quick checklist\n\n1. **Create a network** (`docker network create …`).\n2. **Attach containers** to that network (`--network` flag or compose/swarm).\n3. **Use container/service names** as hostnames in your application.\n4. **Publish ports** only if external access is required.\n5. **Avoid `--link`** unless you’re maintaining legacy code.\n\nWith these steps, any number of Docker containers can communicate securely and reliably.",
+        "scores": {
+          "relevance": 1.0,
+          "groundedness": 0.395,
+          "correctness": 0.697
+        }
+      },
+      "grounded": {
+        "answer": "**Short answer**\n\nCreate a *user‑defined* network (bridge for a single host, overlay for multiple hosts) and attach every container that needs to talk to that network. Containers on the same network can reach each other by name or IP; containers on different networks cannot unless they share a network.\n\n---\n\n### 1. Same Docker daemon (single host)\n\n1. **Create a user‑defined bridge network**  \n   ```bash\n   docker network create --driver bridge my‑net\n   ```\n\n2. **Run containers on that network**  \n   ```bash\n   docker run -d --name web --network my‑net nginx\n   docker run -d --name api --network my‑net my‑api‑image\n   ```\n\n   *Both containers can now reach each other by container name (`web`, `api`) or by the IP assigned on `my‑net`.*\n\n3. **(Optional) Use Docker Compose** – define the network in `docker‑compose.yml` and let Compose attach all services to it.\n\n   ```yaml\n   services:\n     web:\n       image: nginx\n     api:\n       image: my-api\n   networks:\n     default:\n       name: my‑net\n   ```\n\n   *See “Multiple containers can be started together using docker‑compose” in `bridge.md`.*\n\n---\n\n### 2. Multiple Docker daemons (cluster)\n\n1. **Create an overlay network** (requires a Swarm or a compatible cluster setup)  \n   ```bash\n   docker network create --driver overlay my‑overlay\n   ```\n\n2. **Attach containers or services to the overlay**  \n   ```bash\n   docker service create --name web --network my‑overlay nginx\n   docker service create --name api --network my‑overlay my‑api‑image\n   ```\n\n   *Overlay networks automatically route traffic between hosts, so the containers can communicate securely across the cluster.*\n\n---\n\n### 3. Important notes\n\n| Topic | Source |\n|-------|--------|\n| Containers can only communicate across networks they’re both connected to | `overlay.md` |\n| User‑defined networks expose all ports to each other | `bridge.md` |\n| Default bridge isolates containers; ports must be published to be reachable from other networks | `bridge.md` |\n| `--link` is legacy; use user‑defined networks instead | `links.md` |\n\n---\n\n**Bottom line:**  \nCreate a user‑defined network (bridge for a single host, overlay for multi‑host) and attach every container that needs to talk to that network. Containers on the same network can communicate directly; containers on different networks cannot unless they share a network.",
+        "scores": {
+          "relevance": 1.0,
+          "groundedness": 0.566,
+          "correctness": 0.783
+        }
+      }
+    },
+    {
+      "id": 6,
+      "question": "How can I configure environment variables for a Docker container?",
+      "rewritten_query": "Docker set environment variables in container Dockerfile ENV and docker run --env",
+      "retrieval_method": "hybrid_reranking",
+      "retrieval": [
+        {
+          "chunk_id": 9039,
+          "source": "reference.md",
+          "category": "docker",
+          "rerank_score": 8.086694717407227,
+          "rrf_score": 0.0315136476426799
+        },
+        {
+          "chunk_id": 6853,
+          "source": "links.md",
+          "category": "docker",
+          "rerank_score": 8.085075378417969,
+          "rrf_score": 0.01639344262295082
+        },
+        {
+          "chunk_id": 9898,
+          "source": "set-environment-variables.md",
+          "category": "docker",
+          "rerank_score": 7.922861099243164,
+          "rrf_score": 0.030834914611005692
+        },
+        {
+          "chunk_id": 7994,
+          "source": "overriding-container-defaults.md",
+          "category": "docker",
+          "rerank_score": 7.589717864990234,
+          "rrf_score": 0.02819138376017471
+        },
+        {
+          "chunk_id": 9479,
+          "source": "run.md",
+          "category": "docker",
+          "rerank_score": 7.017735958099365,
+          "rrf_score": 0.015625
+        }
+      ],
+      "basic": {
+        "answer": "**Short answer**\n\n| Method | How to set | When it takes effect |\n|--------|------------|----------------------|\n| **Dockerfile `ENV`** | `ENV KEY=VALUE` (or multiple values on one line) | During image build – the value is baked into the image and is present in every container started from that image. |\n| **`docker run --env`** | `docker run --env KEY=VALUE image …` | When you start a container – overrides any `ENV` value from the image. |\n| **`docker run --env-file`** | `docker run --env-file .env image …` | Same as above, but loads many key/value pairs from a file. |\n| **`docker compose run -e`** | `docker compose run -e KEY=VALUE service …` | When you run a Compose service with `run` – temporary override. |\n| **Link‑time propagation** | `docker run --link other:alias` | Docker automatically creates environment variables in the target container that expose the source container’s environment. |\n| **Shell inheritance** | `docker run -e KEY` (no value) | The current value of `KEY` in the host shell is copied into the container. |\n\n---\n\n## 1. Setting variables in the **Dockerfile**\n\n```dockerfile\n# Example Dockerfile\nFROM ubuntu:22.04\n\n# Single line, multiple variables\nENV MY_NAME=\"John Doe\" \\\n    MY_DOG=\"Rex The Dog\" \\\n    MY_CAT=fluffy\n\n# You can also escape spaces or use quotes\nENV PATH=\"/usr/local/bin:${PATH}\"\n```\n\n* The values are **persisted** in the image.  \n* You can inspect them later with `docker inspect <image> | jq '.[].Config.Env'`.  \n* They are inherited by all stages in a multi‑stage build unless you override them in a later stage.\n\n---\n\n## 2. Overriding or adding variables at **container start**\n\n### `docker run`\n\n```bash\n# Override an existing variable\ndocker run --env MY_DOG=\"Buddy\" myimage\n\n# Add a new variable\ndocker run --env NEW_VAR=hello myimage\n\n# Copy a host variable without specifying a value\nexport TODAY=Wednesday\ndocker run --env TODAY --rm alpine env\n```\n\n### `docker run --env-file`\n\nCreate a file `.env`:\n\n```\nAPI_KEY=12345\nDEBUG=true\n```\n\nRun:\n\n```bash\ndocker run --env-file .env myimage\n```\n\nAll key/value pairs in the file are injected into the container.\n\n---\n\n## 3. Using **Docker Compose**\n\n```yaml\n# docker-compose.yml\nservices:\n  web:\n    image: myimage\n    environment:\n      - DEBUG=0          # default value baked into the image\n```\n\nTo override temporarily:\n\n```bash\ndocker compose run -e DEBUG=1 web python console.py\n```\n\nIf you omit the value, Compose copies the host’s variable:\n\n```bash\nexport DEBUG=2\ndocker compose run -e DEBUG web python console.py\n```\n\n---\n\n## 4. Linking containers\n\nWhen you link containers (`docker run --link` or `--network` with `--link`), Docker automatically creates environment variables in the target container that expose the source container’s environment. These include:\n\n* All `ENV` values from the source image.\n* Variables passed with `-e`, `--env`, or `--env-file` when the source container was started.\n\n---\n\n## 5. Things to watch out for\n\n| Issue | Why it matters | Mitigation |\n|-------|----------------|------------|\n| **Persistence** | `ENV` values stay in the image; changing them later requires rebuilding. | Keep build‑time variables minimal; use `--env` for runtime overrides. |\n| **Side effects** | Example: `ENV DEBIAN_FRONTEND=noninteractive` changes `apt-get` behavior. | Document such variables; consider using `ARG` for build‑time only. |\n| **Variable collision** | A `docker run -e KEY=VALUE` can silently override an image’s `ENV`. | Explicitly document expected defaults; use `--env-file` for clarity. |\n\n---\n\n### Quick cheat‑sheet\n\n```bash\n# Dockerfile\nENV VAR1=foo VAR2=\"bar baz\"\n\n# Build\ndocker build -t myimage .\n\n# Run with overrides\ndocker run -e VAR1=override -e NEW=val my",
+        "scores": {
+          "relevance": 1.0,
+          "groundedness": 0.438,
+          "correctness": 0.719
+        }
+      },
+      "grounded": {
+        "answer": "**Configure environment variables for a Docker container**\n\n| Method | How to set | Example | Source |\n|--------|------------|---------|--------|\n| **In the Dockerfile** | `ENV` instruction | ```dockerfile\\nENV MY_NAME=\"John Doe\" MY_DOG=Rex\\\\ The\\\\ Dog \\\\\\n    MY_CAT=fluffy\\n``` | reference.md |\n| **At container start (docker run)** | `-e` / `--env` flag | ```bash\\n$ docker run -e MY_NAME=Jane -e MY_DOG=Buddy myimage\\n``` | reference.md, run.md |\n| **At container start (docker compose run)** | `-e` / `--env` flag | ```bash\\n$ docker compose run -e DEBUG=1 web python console.py\\n``` | set-environment-variables.md |\n| **From a file** | `--env-file` flag | ```bash\\n$ docker run --env-file .env myimage\\n``` | overriding-container-defaults.md |\n| **Propagate host variable** | Omit value in `-e` | ```bash\\n$ export today=Wednesday\\n$ docker run -e today alpine env\\n``` | run.md |\n\n**Key points**\n\n* Variables set with `ENV` in a Dockerfile persist in the image and can be overridden at runtime with `-e` or `--env`.\n* `docker compose run` supports the same `-e/--env` syntax for temporary overrides.\n* A `.env` file can be supplied with `--env-file` to avoid many `-e` flags.\n* If you specify `-e VAR` without a value, Docker copies the current value of `VAR` from the host into the container.\n\nThese options give you full control over the environment inside your Docker containers.",
+        "scores": {
+          "relevance": 1.0,
+          "groundedness": 0.557,
+          "correctness": 0.779
+        }
+      }
+    },
+    {
+      "id": 7,
+      "question": "How can I build a Docker image from a Dockerfile?",
+      "rewritten_query": "docker build command Dockerfile official documentation",
+      "retrieval_method": "hybrid_reranking",
+      "retrieval": [
+        {
+          "chunk_id": 2365,
+          "source": "base-images.md",
+          "category": "docker",
+          "rerank_score": 6.012742042541504,
+          "rrf_score": 0.015384615384615385
+        },
+        {
+          "chunk_id": 11028,
+          "source": "trusted-content.md",
+          "category": "docker",
+          "rerank_score": 5.769062042236328,
+          "rrf_score": 0.015873015873015872
+        },
+        {
+          "chunk_id": 11030,
+          "source": "trusted-content.md",
+          "category": "docker",
+          "rerank_score": 5.751912593841553,
+          "rrf_score": 0.01639344262295082
+        },
+        {
+          "chunk_id": 7808,
+          "source": "official-images.md",
+          "category": "docker",
+          "rerank_score": 5.167775630950928,
+          "rrf_score": 0.014285714285714285
+        },
+        {
+          "chunk_id": 7806,
+          "source": "official-images.md",
+          "category": "docker",
+          "rerank_score": 5.060667514801025,
+          "rrf_score": 0.014925373134328358
+        }
+      ],
+      "basic": {
+        "answer": "### Building a Docker image from a `Dockerfile`\n\n1. **Create a `Dockerfile`**  \n   Put the file in the root of your project (or any directory you’ll use as the build context).  \n   Example `Dockerfile` that starts from the official Debian image:\n\n   ```dockerfile\n   # Use a base image from Docker Hub\n   FROM debian:latest\n\n   # (Optional) Add your own layers below\n   # RUN apt-get update && apt-get install -y curl\n   # COPY . /app\n   # CMD [\"bash\"]\n   ```\n\n   *Tip:*  \n   - If you need a completely custom base, you can start with `FROM scratch` and add everything yourself.  \n   - For most projects, pulling a pre‑built base from Docker Hub (e.g., `debian`, `node`, `python`) is the simplest and most secure approach.\n\n2. **Open a terminal and navigate to the directory containing the `Dockerfile`.**  \n   The directory you’re in becomes the *build context* – everything inside it can be referenced by the Dockerfile (e.g., `COPY . /app`).\n\n3. **Run the build command**\n\n   ```bash\n   docker build -t myimage:latest .\n   ```\n\n   - `-t myimage:latest` tags the image with a name (`myimage`) and a tag (`latest`).  \n   - The trailing `.` tells Docker to use the current directory as the build context.\n\n   **Common options**\n\n   | Option | What it does | Example |\n   |--------|--------------|---------|\n   | `--no-cache` | Build without using cached layers | `docker build --no-cache -t myimage .` |\n   | `--pull` | Always pull the newest base image | `docker build --pull -t myimage .` |\n   | `--build-arg` | Pass build‑time variables | `docker build --build-arg VERSION=2.0 -t myimage .` |\n\n4. **Verify the image was created**\n\n   ```bash\n   docker images | grep myimage\n   ```\n\n   You should see an entry for `myimage` with the `latest` tag.\n\n5. **Run a container from the image (optional)**\n\n   ```bash\n   docker run --rm -it myimage\n   ```\n\n   This starts a container using the image you just built.\n\n---\n\n#### Why use Docker Hub base images?\n\n- **Security & maintenance**: Official images are regularly updated and audited for CVEs.  \n- **Best‑practice reference**: They follow Dockerfile best practices and are well‑documented.  \n- **Convenience**: You avoid having to maintain a custom base image unless you have a very specific requirement.\n\nIf you *do* need a custom base, start with `FROM scratch` and add only the packages you require. This keeps the image lean and reduces the attack surface.\n\n---\n\n#### Quick checklist\n\n- [ ] `Dockerfile` exists and starts with a `FROM` line.  \n- [ ] You’re in the correct build context directory.  \n- [ ] Run `docker build -t <name>:<tag> .` (add flags as needed).  \n- [ ] Verify with `docker images`.  \n- [ ] Test with `docker run`.\n\nThat’s all you need to build a Docker image from a Dockerfile!",
+        "scores": {
+          "relevance": 1.0,
+          "groundedness": 0.304,
+          "correctness": 0.652
+        }
+      },
+      "grounded": {
+        "answer": "The documentation you provided does not include any information about the command or steps required to build a Docker image from a Dockerfile. It only shows an example `FROM debian` line and discusses base images, but it does not describe the `docker build` command or any build workflow.\n\n**Answer:**  \nThe provided documentation is insufficient to explain how to build a Docker image from a Dockerfile.",
+        "scores": {
+          "relevance": 1.0,
+          "groundedness": 0.333,
+          "correctness": 0.667
+        }
+      }
+    },
+    {
+      "id": 8,
+      "question": "How can I investigate why a Docker container stopped?",
+      "rewritten_query": "Docker container stopped troubleshooting exit code logs official documentation search query",
+      "retrieval_method": "hybrid_reranking",
+      "retrieval": [
+        {
+          "chunk_id": 9414,
+          "source": "run.md",
+          "category": "docker",
+          "rerank_score": 2.0879757404327393,
+          "rrf_score": 0.015625
+        },
+        {
+          "chunk_id": 9866,
+          "source": "services.md",
+          "category": "docker",
+          "rerank_score": 0.9845526218414307,
+          "rrf_score": 0.016129032258064516
+        },
+        {
+          "chunk_id": 8614,
+          "source": "prior-releases.md",
+          "category": "docker",
+          "rerank_score": 0.4598872661590576,
+          "rrf_score": 0.014925373134328358
+        },
+        {
+          "chunk_id": 9415,
+          "source": "run.md",
+          "category": "docker",
+          "rerank_score": -0.016872067004442215,
+          "rrf_score": 0.015384615384615385
+        },
+        {
+          "chunk_id": 11542,
+          "source": "v1.13.md",
+          "category": "docker",
+          "rerank_score": -0.3684229254722595,
+          "rrf_score": 0.015625
+        }
+      ],
+      "basic": {
+        "answer": "## Quick checklist to find out why a container stopped\n\n| Step | What to do | Why it helps |\n|------|------------|--------------|\n| 1. **Check the exit status** | `docker ps -a --filter \"id=<container-id>\" --format \"{{.Status}}\"` or `docker inspect --format='{{.State.ExitCode}}' <container-id>` | The exit code tells you whether Docker or the container’s process caused the stop. |\n| 2. **Read the container logs** | `docker logs <container-id>` (add `-f` to stream, `--tail 100` to limit) | Logs often contain the error message that caused the process to exit. |\n| 3. **Inspect the container** | `docker inspect <container-id>` | Look at `State`, `RestartPolicy`, `Mounts`, `Config.Cmd`, `Config.Entrypoint`, etc. |\n| 4. **Check the restart policy** | `docker inspect --format='{{.HostConfig.RestartPolicy.Name}}' <container-id>` | If the policy is `on-failure`, Docker will only restart on non‑zero exit codes. |\n| 5. **Look at Docker daemon logs** | `journalctl -u docker.service` (or `/var/log/docker.log`) | If the exit code is `125`, the problem is with the daemon itself. |\n| 6. **Re‑run the container manually** | `docker run --rm <image> <cmd>` | Reproducing the failure in an interactive session can surface missing files, permissions, or environment issues. |\n| 7. **Use the API (optional)** | `GET /containers/<id>/logs?stderr=1&stdout=1&timestamps=1&follow=1&tail=10` | Useful for scripts or CI pipelines that need to capture logs programmatically. |\n\n---\n\n## Interpreting the exit code\n\n| Exit code | Meaning | Typical cause |\n|-----------|---------|---------------|\n| **125** | Docker daemon error | Wrong flag, syntax error, or daemon mis‑configuration. |\n| **126** | Command cannot be invoked | The binary exists but isn’t executable (wrong shebang, missing `chmod +x`, or wrong architecture). |\n| **127** | Command not found | The entrypoint/command is missing from the image or the path is wrong. |\n| **Other** | Exit code of the container’s main process | Application logic error, crash, or explicit `exit N`. |\n\n> **Tip:** If the exit code is `0`, the container stopped normally (e.g., the process finished). Anything else usually indicates a failure.\n\n---\n\n## Practical example\n\n```bash\n# 1. Find the container ID (replace <name> with your service name)\nCONTAINER=$(docker ps -a --filter \"name=<name>\" --format \"{{.ID}}\")\n\n# 2. Exit code\ndocker inspect --format='{{.State.ExitCode}}' $CONTAINER\n# 3. Exit status string\ndocker ps -a --filter \"id=$CONTAINER\" --format \"{{.Status}}\"\n\n# 4. Logs (last 50 lines)\ndocker logs --tail 50 $CONTAINER\n\n# 5. Full inspect (look for RestartPolicy, Cmd, Entrypoint)\ndocker inspect $CONTAINER | jq '.[] | {Id, State, HostConfig, Config}'\n\n# 6. If exit code 125, check daemon logs\njournalctl -u docker.service | tail -n 50\n```\n\n---\n\n## Common pitfalls\n\n| Symptom | Likely cause | Fix |\n|---------|--------------|-----|\n| Container exits immediately after start | Entrypoint/command missing or wrong | Verify `CMD`/`ENTRYPOINT` in Dockerfile or `docker run` args. |\n| `docker run` prints “flag provided but not defined” | Wrong flag passed to `docker run` | Remove or correct the flag. |\n| `docker run` prints “Container command '/etc' could not be invoked” | Trying to run a directory | Ensure the command is a binary or script. |\n| Container keeps restarting forever | `restart: always` or `unless-stopped` | Change policy to `on-failure` or `no`, or stop the service.",
+        "scores": {
+          "relevance": 1.0,
+          "groundedness": 0.354,
+          "correctness": 0.677
+        }
+      },
+      "grounded": {
+        "answer": "**Steps to investigate a stopped container**\n\n| What to check | Why it matters | How to do it (supported by the docs) |\n|---------------|----------------|--------------------------------------|\n| **Exit code** | The exit code tells you whether the container failed because Docker itself had a problem (125), the command couldn’t be invoked (126), the command wasn’t found (127), or the command exited with a user‑defined code. | ```bash<br>docker inspect <container‑id> | grep ExitCode<br>``` <br>*(The `docker inspect` command now includes the host‑config section, so you can see the exit code.) |\n| **Container logs** | The stdout/stderr stream often contains the error message that caused the exit. | ```bash<br>docker log -f <container‑id>  # streams the logs in real time<br>``` <br>*(The `docker log -f` command was added to stream logs.) |\n| **Restart policy** | If the container was restarted automatically, the policy may mask the original failure. | ```bash<br>docker inspect <container‑id> | grep RestartPolicy<br>``` |\n| **Other diagnostics** | If the container was stopped by a signal or the host, the exit code will be non‑zero and the logs will show the signal. | Use the same `docker inspect` and `docker log` commands above; the exit code and logs will reveal the signal or error. |\n\n**Typical workflow**\n\n1. **Find the container ID** (e.g., from `docker ps -a`).\n2. **Check the exit code** – a value of 125, 126, or 127 points to a Docker‑level or command‑level issue; any other value is the command’s own exit status.\n3. **Stream the logs** to see the exact error message that caused the exit.\n4. **Verify the restart policy** to understand whether Docker is automatically restarting the container and potentially hiding the original failure.\n\nThese steps use only the features documented in *run.md*, *services.md*, and *prior‑releases.md*. If the container’s exit code is 125, 126, or 127, the documentation explains the likely cause. For any other exit code, the value itself is the command’s exit status.",
+        "scores": {
+          "relevance": 1.0,
+          "groundedness": 0.333,
+          "correctness": 0.667
+        }
+      }
+    },
+    {
+      "id": 9,
+      "question": "How can I run several related Docker services together?",
+      "rewritten_query": "",
+      "retrieval_method": "hybrid_reranking",
+      "retrieval": [
+        {
+          "chunk_id": 12441,
+          "source": "v1.22.md",
+          "category": "docker",
+          "rerank_score": -2.560286045074463,
+          "rrf_score": 0.01639344262295082
+        },
+        {
+          "chunk_id": 6663,
+          "source": "labels.md",
+          "category": "docker",
+          "rerank_score": -3.285438060760498,
+          "rrf_score": 0.016129032258064516
+        },
+        {
+          "chunk_id": 6671,
+          "source": "labels.md",
+          "category": "docker",
+          "rerank_score": -3.285438060760498,
+          "rrf_score": 0.015873015873015872
+        },
+        {
+          "chunk_id": 6655,
+          "source": "labels.md",
+          "category": "docker",
+          "rerank_score": -3.285438060760498,
+          "rrf_score": 0.015625
+        },
+        {
+          "chunk_id": 6673,
+          "source": "labels.md",
+          "category": "docker",
+          "rerank_score": -3.285438060760498,
+          "rrf_score": 0.015384615384615385
+        }
+      ],
+      "basic": {
+        "answer": "**Short answer**\n\nUse **Docker Compose** (or Docker‑Stack for Swarm) to declare all of your related services in a single `docker‑compose.yml` file and then bring them up with one command:\n\n```bash\ndocker compose up -d          # for a single host\n# or\ndocker stack deploy -c docker-compose.yml mystack   # for Swarm\n```\n\n---\n\n## Why Docker Compose?\n\n* **Declarative** – you write a single YAML file that describes every container, its image, environment variables, volumes, networks, and how they depend on each other.\n* **Single‑command** – `docker compose up` starts all services, creates the required networks, mounts volumes, and handles ordering (`depends_on`).\n* **Reproducible** – the same file can be checked into source control and used on any machine that has Docker installed.\n\n---\n\n## Quick‑start example\n\nCreate a file named `docker-compose.yml`:\n\n```yaml\nversion: \"3.9\"          # or \"3.8\" if you need older Docker versions\n\nservices:\n  web:\n    image: nginx:latest\n    ports:\n      - \"80:80\"\n    depends_on:\n      - app\n    networks:\n      - frontend\n\n  app:\n    image: myapp:latest\n    environment:\n      - DATABASE_URL=postgres://user:pass@db:5432/mydb\n    depends_on:\n      - db\n    networks:\n      - backend\n\n  db:\n    image: postgres:15\n    environment:\n      POSTGRES_USER: user\n      POSTGRES_PASSWORD: pass\n      POSTGRES_DB: mydb\n    volumes:\n      - db-data:/var/lib/postgresql/data\n    networks:\n      - backend\n\nnetworks:\n  frontend:\n  backend:\n\nvolumes:\n  db-data:\n```\n\nRun it:\n\n```bash\ndocker compose up -d\n```\n\nAll three containers (`web`, `app`, `db`) start together, share the defined networks, and the `app` container will wait for `db` to be ready before it starts.\n\n---\n\n## Key Compose concepts for “related services”\n\n| Feature | What it does | Example |\n|---------|--------------|---------|\n| **`depends_on`** | Controls start‑up order (does **not** wait for the service to be “ready”) | `depends_on: - db` |\n| **Networks** | Isolate traffic between services or expose only what you need | `networks: - backend` |\n| **Volumes** | Persist data or share files between containers | `volumes: - db-data:/var/lib/postgresql/data` |\n| **Labels** | Add metadata for service discovery, monitoring, or orchestration tools | `labels: - com.example.version=1.0` |\n| **Environment variables** | Pass configuration to containers | `environment: - DATABASE_URL=…` |\n\n> **Tip** – If you need a service to wait until another is *actually* ready (e.g., a database is listening on a port), combine `depends_on` with a health‑check or use a tool like [`wait-for-it.sh`](https://github.com/vishnubob/wait-for-it) in the container’s entrypoint.\n\n---\n\n## Running in Docker Swarm\n\nIf you’re on a Swarm cluster, the same Compose file works with a small change:\n\n```bash\ndocker stack deploy -c docker-compose.yml mystack\n```\n\n* `mystack` is the stack name.\n* Swarm will create services, replicas, and overlay networks automatically.\n\n---\n\n## Using Docker CLI (no Compose)\n\nIf you prefer the CLI, you can start each container manually and link them with a shared network:\n\n```bash\n# Create a shared network\ndocker network create mynet\n\n# Start the database",
+        "scores": {
+          "relevance": 1.0,
+          "groundedness": 0.0,
+          "correctness": 0.5
+        }
+      },
+      "grounded": {
+        "answer": "I’m sorry, but the provided documentation does not contain enough information to answer your question about running several related Docker services together.",
+        "scores": {
+          "relevance": 1.0,
+          "groundedness": 0.0,
+          "correctness": 0.5
+        }
+      }
+    },
+    {
+      "id": 10,
+      "question": "What is the recommended way to persist application data independently from a Docker container?",
+      "rewritten_query": "Docker volumes persist data outside container best practices",
+      "retrieval_method": "hybrid_reranking",
+      "retrieval": [
+        {
+          "chunk_id": 3856,
+          "source": "databases.md",
+          "category": "docker",
+          "rerank_score": 6.015811920166016,
+          "rrf_score": 0.03128054740957967
+        },
+        {
+          "chunk_id": 6598,
+          "source": "kubernetes.md",
+          "category": "docker",
+          "rerank_score": 5.447019100189209,
+          "rrf_score": 0.015625
+        },
+        {
+          "chunk_id": 6427,
+          "source": "jupyter.md",
+          "category": "docker",
+          "rerank_score": 5.320307731628418,
+          "rrf_score": 0.02761904761904762
+        },
+        {
+          "chunk_id": 8037,
+          "source": "persisting-container-data.md",
+          "category": "docker",
+          "rerank_score": 5.236380577087402,
+          "rrf_score": 0.03278688524590164
+        },
+        {
+          "chunk_id": 8039,
+          "source": "persisting-container-data.md",
+          "category": "docker",
+          "rerank_score": 4.732820510864258,
+          "rrf_score": 0.028577260665441927
+        }
+      ],
+      "basic": {
+        "answer": "**Use a Docker volume**\n\nThe canonical way to keep application data alive after a container is stopped, removed, or upgraded is to mount a **Docker volume** into the container.  \nA volume is a managed storage area that lives outside the container’s writable layer, so it survives the container’s lifecycle and can be shared or backed up independently.\n\n**Typical workflow**\n\n```bash\n# 1. Create a named volume (optional – Docker will create it automatically if you skip this step)\ndocker volume create my‑app‑data\n\n# 2. Run the container and attach the volume\ndocker run -d \\\n  -p 8080:80 \\\n  -v my‑app‑data:/var/lib/myapp/data \\\n  my‑app‑image\n```\n\n* `/var/lib/myapp/data` is the path inside the container where the app writes its data.  \n* `my‑app‑data` is the Docker‑managed volume that persists on the host.\n\n**Why volumes?**\n\n| Feature | Docker Volume | Bind Mount |\n|---------|---------------|------------|\n| Managed by Docker | ✔ | ❌ |\n| OS‑agnostic | ✔ | ❌ |\n| Easy to list, prune, and backup | ✔ | ❌ |\n| Works across container upgrades and base image changes | ✔ | ❌ |\n\n**Managing volumes**\n\n```bash\ndocker volume ls            # list all volumes\ndocker volume inspect my‑app‑data\ndocker volume rm my‑app‑data   # only works when no container uses it\ndocker volume prune          # remove all unused volumes\n```\n\nSo, the recommended approach is to **create and mount a Docker volume** for any data that must persist beyond the container’s life.",
+        "scores": {
+          "relevance": 1.0,
+          "groundedness": 0.446,
+          "correctness": 0.723
+        }
+      },
+      "grounded": {
+        "answer": "The recommended way to keep application data outside of a container’s writable layer is to use a **Docker volume**.\n\n* Volumes are managed by Docker, survive container restarts or removals, and can be shared between containers.  \n* Bind mounts depend on the host’s directory layout and OS, so volumes are preferred for persistence.\n\n**Typical usage**\n\n```bash\n# Create a named volume\ndocker volume create app-data\n\n# Run a container with the volume mounted\ndocker run --rm -p 8080:80 -v app-data:/var/lib/app my‑image\n```\n\nThe data written to `/var/lib/app` inside the container is stored in the `app-data` volume on the host, so it remains intact even if the container is deleted or recreated.\n\n**Managing volumes**\n\n```bash\ndocker volume ls          # list all volumes\ndocker volume rm <name>   # remove an unused volume\ndocker volume prune       # remove all unused volumes\n```\n\n*Sources: databases.md, persisting‑container‑data.md, jupyter.md*",
+        "scores": {
+          "relevance": 1.0,
+          "groundedness": 0.556,
+          "correctness": 0.778
+        }
+      }
+    }
+  ]
+}
