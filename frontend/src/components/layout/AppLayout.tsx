@@ -40,7 +40,7 @@ export function AppLayout() {
 
       <main className="ml-64 min-h-screen">
         <Header eyebrow={meta.eyebrow} title={meta.title} description={meta.description} />
-        <div className="mx-auto max-w-7xl px-8 py-8">
+        <div className="page-enter mx-auto max-w-7xl px-8 py-8">
           <Outlet />
         </div>
       </main>

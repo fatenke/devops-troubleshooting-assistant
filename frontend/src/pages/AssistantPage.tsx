@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
-import { ChevronDown, MessageSquareText, SendHorizonal, Sparkles } from 'lucide-react';
+import { Check, ChevronDown, FileText, MessageSquareText, SendHorizonal, Sparkles, ThumbsDown, ThumbsUp } from 'lucide-react';
+import ReactMarkdown from 'react-markdown';
 import { Badge } from '../components/common/Badge';
 import { EmptyState } from '../components/common/EmptyState';
 import { ErrorState } from '../components/common/ErrorState';
@@ -73,7 +74,7 @@ export function AssistantPage() {
       setFeedbackState({ query: data.query, rating: null });
       setBackendReady(true);
     } catch {
-      setError('Unable to connect to the backend. Please verify that the API is running.');
+      setError('We could not process your request right now. Please try again in a moment.');
       setResponse(null);
       setBackendReady(false);
     } finally {
@@ -95,7 +96,7 @@ export function AssistantPage() {
       await sendFeedback(payload);
       setFeedbackState({ query: payload.query, rating });
     } catch {
-      setError('Unable to submit feedback. Please try again once the API is available.');
+      setError('We could not save your feedback right now. Please try again in a moment.');
     }
   }
 
@@ -163,20 +164,52 @@ export function AssistantPage() {
         />
       )}
       {loading && <LoadingState message="Analyzing documentation..." />}
-      {error && <ErrorState title="Unable to connect to the backend." message={error} />}
+      {error && <ErrorState title="We could not complete your request." message={error} />}
 
       {response && (
         <div className="space-y-6">
-          <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
-            <div className="mb-3 flex items-center justify-between">
-              <h3 className="text-lg font-semibold text-slate-100">Answer</h3>
-              {response.latency && <Badge label={`${response.latency} ms`} tone="info" />}
+          <div className="overflow-hidden rounded-2xl border border-cyan-400/20 bg-slate-900/70 shadow-[0_12px_40px_rgba(8,47,73,0.14)]">
+            <div className="flex items-center justify-between border-b border-slate-800 bg-slate-950/35 px-5 py-4">
+              <div className="flex items-center gap-3">
+                <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-cyan-400/10 text-cyan-300">
+                  <Sparkles size={18} />
+                </div>
+                <div>
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-cyan-300">Grounded response</p>
+                  <h3 className="mt-0.5 text-lg font-semibold text-slate-100">Answer</h3>
+                </div>
+              </div>
+              {response.latency && <span className="rounded-full border border-slate-700 px-2.5 py-1 text-xs text-slate-400">{response.latency} ms</span>}
             </div>
-            <div className="text-sm leading-7 text-slate-200">{response.answer}</div>
+            <div className="px-5 py-5">
+              <div className="assistant-markdown text-[15px] leading-7 text-slate-200">
+                <ReactMarkdown
+                  components={{
+                    h1: ({ children }) => <h4>{children}</h4>,
+                    h2: ({ children }) => <h4>{children}</h4>,
+                    h3: ({ children }) => <h5>{children}</h5>,
+                    p: ({ children }) => <p>{children}</p>,
+                    ul: ({ children }) => <ul>{children}</ul>,
+                    ol: ({ children }) => <ol>{children}</ol>,
+                    li: ({ children }) => <li>{children}</li>,
+                    strong: ({ children }) => <strong>{children}</strong>,
+                    code: ({ className, children, ...props }) => (
+                      <code className={className} {...props}>
+                        {children}
+                      </code>
+                    ),
+                    pre: ({ children }) => <pre>{children}</pre>,
+                  }}
+                >
+                  {response.answer}
+                </ReactMarkdown>
+              </div>
 
-            <div className="mt-5 flex flex-wrap items-center gap-2 text-xs text-slate-300">
-              <span className="font-medium text-slate-200">Knowledge base:</span>
-              {enabledSources.length > 0 ? enabledSources.map((source) => <Badge key={source.id} label={source.name} tone="success" />) : <Badge label="No sources available" tone="neutral" />}
+              <div className="mt-6 flex flex-wrap items-center gap-2 border-t border-slate-800 pt-4 text-xs text-slate-400">
+                <span className="font-medium text-slate-300">Based on</span>
+                {enabledSources.length > 0 ? enabledSources.map((source) => <Badge key={source.id} label={source.name} tone="success" />) : <Badge label="No sources available" tone="neutral" />}
+                <span className="ml-auto">{response.sources.length} cited {response.sources.length === 1 ? 'source' : 'sources'}</span>
+              </div>
             </div>
           </div>
 
@@ -220,26 +253,38 @@ export function AssistantPage() {
           </div>
 
           <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
-            <h3 className="mb-4 text-lg font-semibold text-slate-100">Sources</h3>
+            <div className="mb-4 flex items-end justify-between gap-3">
+              <div>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-500">Evidence</p>
+                <h3 className="mt-1 text-lg font-semibold text-slate-100">Sources</h3>
+              </div>
+              {response.sources.length > 0 && <span className="text-xs text-slate-500">Ranked documentation excerpts</span>}
+            </div>
             <div className="space-y-3">
               {response.sources.length === 0 ? (
                 <EmptyState icon={MessageSquareText} title="No sources returned" detail="The backend returned no source excerpts for this query." />
               ) : (
                 response.sources.map((source, index) => (
-                  <div key={`${source.source}-${index}`} className="rounded-xl border border-slate-700 bg-slate-950/50 p-4">
-                    <div className="flex items-start justify-between gap-4">
-                      <div>
-                        <p className="text-sm font-medium text-slate-100">{source.source}</p>
-                        <p className="mt-1 text-xs text-slate-400">Category: {source.category ?? 'general'}</p>
+                  <div key={`${source.source}-${index}`} className="group rounded-xl border border-slate-700/80 bg-slate-950/45 p-4 transition hover:border-cyan-400/30 hover:bg-slate-950/70">
+                    <div className="flex items-start gap-3">
+                      <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-cyan-400/10 text-xs font-semibold text-cyan-300">{index + 1}</span>
+                      <div className="min-w-0 flex-1">
+                        <div className="flex items-start justify-between gap-3">
+                          <div className="flex min-w-0 items-center gap-2">
+                            <FileText size={15} className="shrink-0 text-slate-500" />
+                            <p className="truncate text-sm font-medium text-slate-100">{source.source}</p>
+                          </div>
+                          <span className="shrink-0 rounded-full bg-slate-800 px-2 py-1 text-[10px] font-medium uppercase tracking-wide text-slate-400">{source.category ?? 'general'}</span>
+                        </div>
                         {source.rerank_score !== undefined && (
-                          <p className="mt-1 text-xs text-slate-400">Rerank score: {source.rerank_score.toFixed(2)}</p>
+                          <p className="mt-2 text-[11px] text-slate-500">Relevance {source.rerank_score.toFixed(2)}</p>
                         )}
                         {source.rrf_score !== undefined && (
-                          <p className="mt-1 text-xs text-slate-400">RRF score: {source.rrf_score.toFixed(2)}</p>
+                          <p className="mt-1 text-[11px] text-slate-500">RRF {source.rrf_score.toFixed(2)}</p>
                         )}
+                        <p className="mt-3 border-l-2 border-slate-700 pl-3 text-sm leading-6 text-slate-300">{source.text.slice(0, 260)}{source.text.length > 260 ? '…' : ''}</p>
                       </div>
                     </div>
-                    <p className="mt-3 text-sm leading-6 text-slate-300">{source.text.slice(0, 260)}{source.text.length > 260 ? '…' : ''}</p>
                   </div>
                 ))
               )}
@@ -247,27 +292,30 @@ export function AssistantPage() {
           </div>
 
           <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
-            <p className="mb-3 text-sm font-medium text-slate-200">Was this answer helpful?</p>
+            <p className="text-sm font-medium text-slate-200">Was this answer helpful?</p>
+            <p className="mt-1 text-xs text-slate-500">Your feedback helps improve troubleshooting quality.</p>
             <div className="flex items-center gap-3">
               <button
                 type="button"
                 onClick={() => handleFeedback('positive')}
-                className="rounded-lg border border-emerald-500/40 bg-emerald-500/10 px-3 py-2 text-sm font-medium text-emerald-300 transition hover:bg-emerald-500/20"
+                className={`mt-3 inline-flex items-center gap-2 rounded-lg border px-3 py-2 text-sm font-medium transition ${feedbackState.rating === 'positive' ? 'border-emerald-400 bg-emerald-500/20 text-emerald-200' : 'border-slate-700 bg-slate-950/40 text-slate-300 hover:border-emerald-500/50 hover:text-emerald-300'}`}
                 aria-label="Mark answer as helpful"
               >
-                👍
+                {feedbackState.rating === 'positive' ? <Check size={15} /> : <ThumbsUp size={15} />}
+                Helpful
               </button>
               <button
                 type="button"
                 onClick={() => handleFeedback('negative')}
-                className="rounded-lg border border-rose-500/40 bg-rose-500/10 px-3 py-2 text-sm font-medium text-rose-300 transition hover:bg-rose-500/20"
+                className={`mt-3 inline-flex items-center gap-2 rounded-lg border px-3 py-2 text-sm font-medium transition ${feedbackState.rating === 'negative' ? 'border-rose-400 bg-rose-500/20 text-rose-200' : 'border-slate-700 bg-slate-950/40 text-slate-300 hover:border-rose-500/50 hover:text-rose-300'}`}
                 aria-label="Mark answer as not helpful"
               >
-                👎
+                <ThumbsDown size={15} />
+                Not helpful
               </button>
               {feedbackState.rating && (
                 <span className="text-xs text-slate-400">
-                  Feedback recorded for: {feedbackState.rating === 'positive' ? 'helpful' : 'not helpful'}
+                  Thanks, your feedback was recorded.
                 </span>
               )}
             </div>

@@ -6,8 +6,8 @@ type ErrorStateProps = {
 };
 
 export function ErrorState({
-  title = 'Unable to connect to the backend.',
-  message = 'Please verify that the API is running.',
+  title = 'We could not complete your request.',
+  message = 'Something went wrong on our side. Please try again in a moment.',
 }: ErrorStateProps) {
   return (
     <div className="flex min-h-[180px] items-center justify-center rounded-2xl border border-rose-500/20 bg-rose-500/5 p-6 text-center">

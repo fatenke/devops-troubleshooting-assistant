@@ -1,4 +1,4 @@
-import { Activity, BookOpen, CircleHelp, GitBranch, MessageSquare, Settings2 } from 'lucide-react';
+import { Activity, BookOpen, CircleHelp, GitBranch, MessageSquare } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
 
 const navItems = [
@@ -43,33 +43,6 @@ export function Sidebar() {
         ))}
       </nav>
 
-      <div className="app-status mt-auto pt-5">
-        <div className="mb-3 flex items-center gap-2 px-3 text-[11px] font-medium uppercase tracking-[0.16em] text-slate-400">
-          <Settings2 size={13} />
-          System status
-        </div>
-        <div className="space-y-3 px-3 text-xs text-slate-300">
-          <StatusItem label="API status" />
-          <StatusItem label="Knowledge base" />
-        </div>
-        <div className="mt-6 px-3 text-[11px] text-slate-500">v0.1.0 · Local workspace</div>
-      </div>
     </aside>
-  );
-}
-
-type StatusItemProps = {
-  label: string;
-};
-
-function StatusItem({ label }: StatusItemProps) {
-  return (
-    <div className="flex items-center justify-between gap-3">
-      <span>{label}</span>
-      <span className="inline-flex items-center gap-1.5 text-slate-400">
-        <span className="h-1.5 w-1.5 rounded-full bg-slate-500" />
-        Pending
-      </span>
-    </div>
   );
 }

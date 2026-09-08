@@ -37,7 +37,7 @@ export function EvaluationPage() {
         }
         setRetrievalMetrics([]);
         setLLMMetrics([]);
-        setError('Unable to connect to the evaluation API.');
+        setError('We could not load the evaluation data right now. Please try again in a moment.');
       } finally {
         if (active) {
           setLoading(false);
@@ -87,7 +87,7 @@ export function EvaluationPage() {
   return (
     <div className="space-y-6">
       {loading && <LoadingState message="Loading evaluation data..." />}
-      {error && <ErrorState title="Unable to connect to the backend." message={error} />}
+      {error && <ErrorState title="We could not load the evaluation data." message={error} />}
 
       {!loading && !error && retrievalMetrics.length === 0 && llmMetrics.length === 0 && (
         <EmptyState icon={BarChart3} title="No evaluation data available yet." detail="Run the evaluation pipeline or connect the backend to populate retrieval and LLM metrics." />

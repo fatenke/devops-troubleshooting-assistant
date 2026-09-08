@@ -10,10 +10,19 @@ export interface MonitoringPoint {
   count?: number;
 }
 
-export interface MonitoringSummary {
-  queriesOverTime: MonitoringPoint[];
-  feedback: MonitoringPoint[];
-  latency: MonitoringPoint[];
-  retrievalScores: MonitoringPoint[];
-  categories: MonitoringPoint[];
+export interface MonitoringMetrics {
+  overview: {
+    total_queries: number;
+    average_latency: number;
+    positive_feedback: number;
+    negative_feedback: number;
+  };
+  queries_over_time: { date: string; queries: number }[];
+  feedback: { positive: number; negative: number };
+  latency_over_time: { date: string; latency: number }[];
+  scores: {
+    average_retrieval_score: number;
+    average_rerank_score: number;
+  };
+  categories: Record<string, number>;
 }
