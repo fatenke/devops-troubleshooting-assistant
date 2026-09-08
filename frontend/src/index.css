@@ -92,6 +92,49 @@
   .pipeline-icon-amber { border-color: rgba(251, 191, 36, 0.3); background: rgba(251, 191, 36, 0.1); color: #fcd34d; }
   .pipeline-icon-rose { border-color: rgba(251, 113, 133, 0.3); background: rgba(251, 113, 133, 0.1); color: #fda4af; }
 
+  .architecture-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    min-height: 3.5rem;
+    animation: pipeline-reveal 520ms ease both;
+  }
+
+  .architecture-icon {
+    display: flex;
+    width: 2.75rem;
+    height: 2.75rem;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid;
+    border-radius: 0.85rem;
+  }
+
+  .architecture-cyan { border-color: rgba(34, 211, 238, 0.3); background: rgba(34, 211, 238, 0.1); color: #67e8f9; }
+  .architecture-violet { border-color: rgba(167, 139, 250, 0.3); background: rgba(167, 139, 250, 0.1); color: #c4b5fd; }
+  .architecture-emerald { border-color: rgba(52, 211, 153, 0.3); background: rgba(52, 211, 153, 0.1); color: #6ee7b7; }
+  .architecture-amber { border-color: rgba(251, 191, 36, 0.3); background: rgba(251, 191, 36, 0.1); color: #fcd34d; }
+  .architecture-rose { border-color: rgba(251, 113, 133, 0.3); background: rgba(251, 113, 133, 0.1); color: #fda4af; }
+  .architecture-blue { border-color: rgba(96, 165, 250, 0.3); background: rgba(96, 165, 250, 0.1); color: #93c5fd; }
+  .architecture-green { border-color: rgba(74, 222, 128, 0.3); background: rgba(74, 222, 128, 0.1); color: #86efac; }
+
+  @media (min-width: 768px) {
+    .architecture-step:not(:last-child) {
+      position: relative;
+    }
+
+    .architecture-step:not(:last-child)::after {
+      position: absolute;
+      top: 2.85rem;
+      left: 1.35rem;
+      width: 1px;
+      height: 0.7rem;
+      background: rgba(100, 116, 139, 0.45);
+      content: '';
+    }
+  }
+
   @keyframes grid-drift {
     from { transform: translate3d(0, 0, 0); }
     to { transform: translate3d(34px, 34px, 0); }
@@ -213,6 +256,14 @@
   html.theme-light .pipeline-icon-emerald { color: #087f5b; }
   html.theme-light .pipeline-icon-amber { color: #9a6700; }
   html.theme-light .pipeline-icon-rose { color: #b4233c; }
+
+  html.theme-light .architecture-cyan { color: #087f99; }
+  html.theme-light .architecture-violet { color: #6d4ac2; }
+  html.theme-light .architecture-emerald { color: #087f5b; }
+  html.theme-light .architecture-amber { color: #9a6700; }
+  html.theme-light .architecture-rose { color: #b4233c; }
+  html.theme-light .architecture-blue { color: #1d4ed8; }
+  html.theme-light .architecture-green { color: #15803d; }
 
   .assistant-markdown h4,
   .assistant-markdown h5 {
