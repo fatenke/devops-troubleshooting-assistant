@@ -1,1 +1,0 @@
-{{/* Summary bar omitted from markdown output */}}

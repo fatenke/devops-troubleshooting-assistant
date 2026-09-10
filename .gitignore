@@ -1,4 +1,41 @@
 .env
-.venv
-frontend/node_modules
-frontend/dist
+.env.*
+!.env.example
+.venv/
+__pycache__/
+*.pyc
+node_modules/
+.git/
+*.log
+.DS_Store
+frontend/dist/
+frontend/node_modules/
+coverage/
+data/processed/__pycache__/
+*.sqlite3
+
+# ==============================
+# Raw documentation
+# ==============================
+
+data/raw/
+
+# ==============================
+# Generated / processed data
+# ==============================
+
+data/processed/
+
+
+# ==============================
+# Monitoring / runtime data
+# ==============================
+
+data/monitoring.jsonl
+data/feedback.jsonl
+
+# ==============================
+# IDE
+# ==============================
+
+.vscode/

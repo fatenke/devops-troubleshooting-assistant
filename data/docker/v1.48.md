@@ -1,6 +1,0 @@
----
-linkTitle: v1.48
-title: Docker Engine API v1.48 reference
-aliases:
-  - /engine/api/v1.48/
----

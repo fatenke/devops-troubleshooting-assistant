@@ -1,4 +1,0 @@
----
-linkTitle: v1.52
-title: Docker Engine API v1.52 reference
----
