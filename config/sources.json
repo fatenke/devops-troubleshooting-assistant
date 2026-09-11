@@ -1,0 +1,17 @@
+{
+  "docker": {
+    "repo": "https://github.com/docker/docs.git",
+    "raw_dir": "data/raw/docker",
+    "processed_dir": "data/processed/docker"
+  },
+  "kubernetes": {
+    "repo": "https://github.com/kubernetes/website.git",
+    "raw_dir": "data/raw/kubernetes",
+    "processed_dir": "data/processed/kubernetes"
+  },
+  "git": {
+    "repo": "https://github.com/git/git.git",
+    "raw_dir": "data/raw/git",
+    "processed_dir": "data/processed/git"
+  }
+}
