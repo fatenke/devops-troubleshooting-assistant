@@ -6,8 +6,12 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
+from src.config import validate_backend_env
 from src.rag_pipeline import RAGPipeline
 from src.monitoring.logger import get_metrics, log_request, log_feedback
+
+
+validate_backend_env()
 
 
 app = FastAPI(

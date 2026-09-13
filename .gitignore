@@ -26,16 +26,9 @@ data/raw/
 
 data/processed/
 
-
 # ==============================
 # Monitoring / runtime data
 # ==============================
 
 data/monitoring.jsonl
 data/feedback.jsonl
-
-# ==============================
-# IDE
-# ==============================
-
-.vscode/

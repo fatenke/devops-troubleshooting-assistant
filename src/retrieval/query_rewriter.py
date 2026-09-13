@@ -1,7 +1,6 @@
-import os
-
-from dotenv import load_dotenv
 from groq import Groq
+
+from src.config import require_env
 
 MODEL_NAME = "openai/gpt-oss-20b"
 
@@ -10,14 +9,7 @@ class QueryRewriter:
 
     def __init__(self):
 
-        load_dotenv()
-
-        api_key = os.getenv("GROQ_API_KEY")
-
-        if not api_key:
-            raise ValueError(
-                "GROQ_API_KEY is missing from .env"
-            )
+        api_key = require_env("GROQ_API_KEY")
 
         self.client = Groq(
             api_key=api_key

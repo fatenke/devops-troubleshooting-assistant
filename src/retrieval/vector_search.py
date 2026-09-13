@@ -1,29 +1,20 @@
-import os
-
-from dotenv import load_dotenv
 from fastembed import TextEmbedding
 from qdrant_client import QdrantClient
 
+from src.config import require_env, get_env
+
 
 MODEL_NAME = "BAAI/bge-small-en-v1.5"
-COLLECTION_NAME = "devops_docs"
+COLLECTION_NAME = get_env("QDRANT_COLLECTION", "devops_docs")
 
 
 class VectorRetriever:
 
     def __init__(self):
 
-        # Load variables from .env
-        load_dotenv()
-
-        qdrant_url = os.getenv("QDRANT_URL")
-        qdrant_api_key = os.getenv("QDRANT_API_KEY")
-
-        if not qdrant_url:
-            raise ValueError("QDRANT_URL is missing from .env")
-
-        if not qdrant_api_key:
-            raise ValueError("QDRANT_API_KEY is missing from .env")
+        qdrant_url = require_env("QDRANT_URL")
+        qdrant_api_key = require_env("QDRANT_API_KEY")
+        collection_name = get_env("QDRANT_COLLECTION", "devops_docs")
 
         print("Connecting to Qdrant Cloud...")
 
@@ -31,6 +22,8 @@ class VectorRetriever:
             url=qdrant_url,
             api_key=qdrant_api_key
         )
+
+        self.collection_name = collection_name
 
         print("Connected to Qdrant Cloud")
 
@@ -53,7 +46,7 @@ class VectorRetriever:
 
         # Search Qdrant
         results = self.client.query_points(
-            collection_name=COLLECTION_NAME,
+            collection_name=self.collection_name,
             query=query_embedding.tolist(),
             limit=limit
         )
