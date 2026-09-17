@@ -90,21 +90,59 @@ The current knowledge base contains:
 
 ## Environment Variables
 
-Create a local `.env` file at the repository root. Never commit real credentials.
+- The root `.env` file contains your local backend secrets. It must never be committed to Git.
+- `.env.example` is the safe template for required backend variables and contains no real credentials.
+- Backend secrets are injected at container runtime through Docker Compose.
+- The frontend never receives Qdrant or Groq credentials; it only gets the public API base URL.
 
-```env
-GROQ_API_KEY=your_groq_api_key
-QDRANT_URL=https://your-qdrant-endpoint
-QDRANT_API_KEY=your_qdrant_api_key
+Create the local backend environment file from the template:
+
+```bash
+cp .env.example .env
 ```
 
-The frontend uses `frontend/.env`:
+Then fill in your real values:
+
+- `QDRANT_URL`
+- `QDRANT_API_KEY`
+- `QDRANT_COLLECTION`
+- `GROQ_API_KEY`
+
+Example template:
 
 ```env
-VITE_API_URL=http://localhost:8000/api
+QDRANT_URL=
+QDRANT_API_KEY=
+QDRANT_COLLECTION=devops_docs
+GROQ_API_KEY=
 ```
 
-A safe frontend template is available at `frontend/.env.example`. The root `.env` file should be created locally and must not be committed.
+The frontend uses a non-secret API URL in `frontend/.env.example`:
+
+```env
+VITE_API_URL=/api
+```
+
+This is the Docker-friendly option because the browser calls the frontend service and the frontend Nginx proxy forwards `/api` to the backend container.
+
+## Docker Setup
+
+Build the containers:
+
+```bash
+docker compose build
+```
+
+Start the app:
+
+```bash
+docker compose up
+```
+
+Then open:
+
+- `http://localhost:5173`
+- `http://localhost:8000/docs`
 
 ## Backend Setup
 

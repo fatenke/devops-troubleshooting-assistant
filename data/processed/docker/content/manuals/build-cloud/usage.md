@@ -1,0 +1,193 @@
+---
+title: Building with Docker Build Cloud
+linkTitle: Usage
+weight: 20
+description: Invoke your cloud builds with the Buildx CLI client
+keywords: build, cloud build, usage, cli, buildx, client
+aliases:
+  - /build/cloud/usage/
+---
+
+To build using Docker Build Cloud, invoke a build command and specify the name of the
+builder using the `--builder` flag.
+
+```console
+$ docker buildx build --builder cloud-<ORG>-<BUILDER_NAME> --tag <IMAGE> .
+```
+
+## Use by default
+
+If you want to use Docker Build Cloud without having to specify the `--builder` flag
+each time, you can set it as the default builder.
+
+{{< tabs group="ui" >}}
+{{< tab name="CLI" >}}
+
+Run the following command:
+
+```console
+$ docker buildx use cloud-<ORG>-<BUILDER_NAME> --global
+```
+
+{{< /tab >}}
+{{< tab name="Docker Desktop" >}}
+
+1. Open the Docker Desktop settings and navigate to the **Builders** tab.
+2. Find the cloud builder under **Available builders**.
+3. Open the drop-down menu and select **Use**.
+
+   ![Selecting the cloud builder as default using the Docker Desktop GUI](/build/images/set-default-builder-gui.webp)
+
+{{< /tab >}}
+{{< /tabs >}}
+
+Changing your default builder with `docker buildx use` only changes the default
+builder for the `docker buildx build` command. The `docker build` command still
+uses the `default` builder, unless you specify the `--builder` flag explicitly.
+
+If you use build scripts, such as `make`, that use the `docker build` command,
+update your build commands to `docker buildx build`. Alternatively, you can set
+the [`BUILDX_BUILDER` environment
+variable](/manuals/build/building/variables.md#buildx_builder) to specify which
+builder `docker build` should use.
+
+## Use with Docker Compose
+
+To build with Docker Build Cloud using `docker compose build`, first set the
+cloud builder as your selected builder, then run your build.
+
+> [!NOTE]
+>
+> Make sure Buildx version 0.37.0 or later is installed. See
+> [Prerequisites](setup.md#prerequisites).
+
+```console
+$ docker buildx use cloud-<ORG>-<BUILDER_NAME>
+$ docker compose build
+```
+
+In addition to `docker buildx use`, you can also use the `docker compose build
+--builder` flag or the [`BUILDX_BUILDER` environment
+variable](/manuals/build/building/variables.md#buildx_builder) to select the cloud builder.
+
+## Loading build results
+
+When you don't specify an output, Buildx leaves an untagged build result in the
+cloud build cache and doesn't load it into Docker Engine. If you use `--tag`,
+Buildx automatically loads the image when the build targets a single platform
+and runs on one cloud node. Use `--load` to request loading explicitly.
+
+The target Docker context determines which Docker Engine image store receives
+the result. For details about loading behavior and other output configurations,
+see [Load results from Docker Build Cloud](/manuals/build/exporters/_index.md#load-results-from-docker-build-cloud).
+
+To push a multi-platform image to a registry instead of loading it:
+
+```console
+$ docker buildx build --builder cloud-<ORG>-<BUILDER_NAME> \
+  --platform linux/amd64,linux/arm64 \
+  --tag <IMAGE> \
+  --push .
+```
+
+To keep a tagged result in the build cache instead of loading it into Docker
+Engine, use the `cacheonly` exporter:
+
+```console
+$ docker buildx build --builder cloud-<ORG>-<BUILDER_NAME> \
+  --platform linux/amd64,linux/arm64 \
+  --tag <IMAGE> \
+  --output type=cacheonly .
+```
+
+## Multi-platform builds
+
+To run multi-platform builds, you must specify all of the platforms that you
+want to build for using the `--platform` flag.
+
+```console
+$ docker buildx build --builder cloud-<ORG>-<BUILDER_NAME> \
+  --platform linux/amd64,linux/arm64 \
+  --tag <IMAGE> \
+  --push .
+```
+
+If you don't specify the platform, the cloud builder automatically builds for the
+architecture matching your local environment.
+
+To learn more about building for multiple platforms, refer to [Multi-platform
+builds](/build/building/multi-platform/).
+
+## Cloud builds in Docker Desktop
+
+The Docker Desktop [Builds view](/desktop/use-desktop/builds/) works with
+Docker Build Cloud out of the box. This view can show information about not only your
+own builds, but also builds initiated by your team members using the same
+builder.
+
+Teams using a shared builder get access to information such as:
+
+- Ongoing and completed builds
+- Build configuration, statistics, dependencies, and results
+- Build source (Dockerfile)
+- Build logs and errors
+
+This lets you and your team work collaboratively on troubleshooting and
+improving build speeds, without having to send build logs and benchmarks back
+and forth between each other.
+
+## Use secrets with Docker Build Cloud
+
+To use build secrets with Docker Build Cloud,
+such as authentication credentials or tokens,
+use the `--secret` and `--ssh` CLI flags for the `docker buildx` command.
+The traffic is encrypted and secrets are never stored in the build cache.
+
+> [!WARNING]
+>
+> If you're misusing build arguments to pass credentials, authentication
+> tokens, or other secrets, you should refactor your build to pass the secrets using
+> [secret mounts](/reference/cli/docker/buildx/build/#secret) instead.
+> Build arguments are stored in the cache and their values are exposed through attestations.
+> Secret mounts don't leak outside of the build and are never included in attestations.
+
+For more information, refer to:
+
+- [`docker buildx build --secret`](/reference/cli/docker/buildx/build/#secret)
+- [`docker buildx build --ssh`](/reference/cli/docker/buildx/build/#ssh)
+
+## Managing build cache
+
+You don't need to manage Docker Build Cloud cache manually.
+The system manages it for you through [garbage collection](/build/cache/garbage-collection/).
+
+Old cache is automatically removed if you hit your storage limit.
+You can check your current cache state using the
+[`docker buildx du` command](/reference/cli/docker/buildx/du/).
+
+To clear the builder's cache manually,
+use the [`docker buildx prune` command](/reference/cli/docker/buildx/prune/).
+This works like pruning the cache for any other builder.
+
+> [!WARNING]
+>
+> Pruning a cloud builder's cache also removes the cache for other team members
+> using the same builder.
+
+## Unset Docker Build Cloud as the default builder
+
+If you've set a cloud builder as the default builder
+and want to revert to the default `docker` builder,
+run the following command:
+
+```console
+$ docker context use default
+```
+
+This doesn't remove the builder from your system.
+It only changes the builder that's automatically selected to run your builds.
+
+## Registries on internal networks
+
+It is possible to use Docker Build Cloud with a [private registry](/manuals/build-cloud/builder-settings.md#private-resource-access)
+or registry mirror on an internal network.

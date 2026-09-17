@@ -1,0 +1,109 @@
+---
+title: How-tos
+description: Step-by-step guidance for working with Docker Hardened Images, from discovery to governance.
+weight: 20
+aliases:
+  - /dhi/how-to/manage/
+params:
+  grid_discover:
+    - title: Search and evaluate Docker Hardened Images
+      description: Learn how to find and compare image repositories, variants, and metadata in the DHI catalog.
+      icon: globe-alt
+      link: /dhi/how-to/search-evaluate/
+  grid_adopt:
+    - title: Get started with DHI Select and Enterprise
+      description: Learn how to mirror repositories, customize images, and access compliance variants with DHI Select and Enterprise subscriptions.
+      icon: rocket-launch
+      link: /dhi/how-to/select-enterprise/
+    - title: Mirror a Docker Hardened Image repository
+      description: Learn how to mirror an image into your organization's namespace and optionally push it to another private registry.
+      icon: arrows-right-left
+      link: /dhi/how-to/mirror/
+    - title: Customize a Docker Hardened Image or chart
+      description: Learn how to customize Docker Hardened Images and charts.
+      icon: cog-6-tooth
+      link: /dhi/how-to/customize/
+    - title: Use hardened system packages
+      description: Learn how to use Docker's hardened system packages in your images.
+      icon: archive-box
+      link: /dhi/how-to/hardened-packages/
+    - title: Use a Docker Hardened Image
+      description: Learn how to pull, run, and reference Docker Hardened Images in Dockerfiles, CI pipelines, and standard development workflows.
+      icon: play
+      link: /dhi/how-to/use/
+    - title: Use a Docker Hardened Image chart
+      description: Learn how to use a Docker Hardened Image chart.
+      icon: chart-bar
+      link: /dhi/how-to/helm/
+  grid_verify:
+    - title: Verify a Docker Hardened Image or chart
+      description: Use Docker Scout or cosign to verify signed attestations like SBOMs, provenance, and vulnerability data for Docker Hardened Images and charts.
+      icon: check-circle
+      link: /dhi/how-to/verify/
+    - title: Scan Docker Hardened Images
+      description: Learn how to scan Docker Hardened Images for known vulnerabilities using Docker Scout, Grype, or Trivy.
+      icon: bug-ant
+      link: /dhi/how-to/scan/
+    - title: Query VEX for a Docker Hardened Image
+      description: Use the DHI GraphQL API to fetch VEX statements and suppressed CVEs for a Docker Hardened Image by digest, at scale.
+      icon: bug-ant
+      link: /dhi/how-to/vex-api/
+  grid_govern:
+    - title: Apply Docker Hardened Image policies to your images
+      description: Learn how to hold your own images to Docker Hardened Image security and compliance standards using the Docker Scout CLI.
+      icon: shield-check
+      link: /dhi/how-to/policies/
+  grid_troubleshoot:
+    - title: Troubleshoot
+      description: Resolve common issues when building, running, or debugging Docker Hardened Images, such as non-root behavior, missing shells, and port access.
+      icon: question-mark-circle
+      link: /dhi/how-to/troubleshoot/
+---
+
+This section provides practical, task-based guidance for working with Docker
+Hardened Images (DHIs). Whether you're evaluating DHIs for the first time or
+integrating them into a production CI/CD pipeline, these topics cover the key
+tasks across the adoption journey: discover, adopt, verify, and govern.
+
+The topics are organized around the typical lifecycle of working with DHIs, but
+you can use them as needed based on your specific workflow.
+
+Explore the topics below that match your current needs.
+
+## Discover
+
+Explore available images and metadata in the DHI catalog.
+
+{{< grid
+  items="grid_discover"
+>}}
+
+## Adopt
+
+Mirror trusted images, customize as needed, and integrate into your workflows.
+
+{{< grid
+  items="grid_adopt"
+>}}
+
+## Verify
+
+Check signatures, SBOMs, and provenance, and scan for vulnerabilities.
+
+{{< grid
+  items="grid_verify"
+>}}
+
+## Govern
+
+Enforce policies to maintain security and compliance.
+
+{{< grid
+  items="grid_govern"
+>}}
+
+## Troubleshoot
+
+{{< grid
+  items="grid_troubleshoot"
+>}}

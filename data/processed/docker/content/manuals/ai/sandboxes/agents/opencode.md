@@ -1,0 +1,122 @@
+---
+title: OpenCode
+weight: 90
+description: |
+  Use OpenCode in Docker Sandboxes with multi-provider authentication and TUI
+  interface for AI development.
+keywords: docker sandboxes, opencode, ai agent, authentication, sbx
+---
+
+This guide covers authentication, configuration, and usage of OpenCode in a
+sandboxed environment.
+
+Official documentation: [OpenCode](https://opencode.ai/docs)
+
+## Quick start
+
+Create a sandbox and run OpenCode for a project directory:
+
+```console
+$ sbx run opencode ~/my-project
+```
+
+`sbx run` defaults the workspace to the current directory:
+
+```console
+$ cd ~/my-project
+$ sbx run opencode
+```
+
+To create a [mountless sandbox](../usage.md#choose-a-workspace), use
+`sbx create` without a workspace path, then attach by name.
+
+OpenCode launches a TUI (text user interface) where you can select your
+preferred LLM provider and interact with the agent.
+
+## Authentication
+
+OpenCode supports multiple providers. Store keys for the providers you want to
+use with [stored secrets](../configuration/credentials.md#stored-secrets):
+
+```console
+$ sbx secret set openai
+$ sbx secret set anthropic
+$ sbx secret set google
+$ sbx secret set xai
+$ sbx secret set groq
+$ sbx secret set aws
+$ sbx secret set openrouter
+```
+
+You only need to configure the providers you want to use. OpenCode detects
+available credentials and offers those providers in the TUI.
+
+### OpenCode Zen API keys
+
+OpenCode Zen API keys aren't part of the built-in OpenCode credentials that
+`sbx secret set` supports. To use an OpenCode Zen API key, store it as a
+[custom secret](../configuration/credentials.md#custom-secrets):
+
+Set the `OPENCODE_API_KEY` environment variable on the host, then store it:
+
+```console
+$ sbx secret set-custom \
+    --host opencode.ai \
+    --env OPENCODE_API_KEY \
+    --value "$OPENCODE_API_KEY"
+```
+
+Custom secrets keep the real key in the host secret store. The sandbox receives
+`OPENCODE_API_KEY` as a placeholder, and the host-side proxy replaces that
+placeholder with the real key on requests to `opencode.ai`.
+
+OpenCode Zen also requires network access to `opencode.ai`:
+
+```console
+$ sbx policy allow network opencode.ai:443
+```
+
+If you add a global custom secret, recreate existing OpenCode sandboxes so the
+new environment variable is available inside the sandbox.
+
+## Configuration
+
+Sandboxes don't pick up user-level configuration from your host. Only
+project-level configuration in the working directory is available inside the
+sandbox. See
+[Why doesn't the sandbox use my user-level agent configuration?](../faq.md#why-doesnt-the-sandbox-use-my-user-level-agent-configuration)
+for workarounds.
+
+OpenCode uses a TUI interface and doesn't require extensive configuration
+files. The agent prompts you to select a provider when it starts, and you can
+switch providers during a session.
+
+### Default startup command
+
+The sandbox runs `opencode` with no implicit flags. Args after `--` are passed
+straight through. For example, to resume an existing session:
+
+```console
+$ sbx run --name <sandbox-name> -- -s <session-id>
+```
+
+### TUI mode
+
+OpenCode launches in TUI mode by default. The interface shows:
+
+- Available LLM providers (based on configured credentials)
+- Current conversation history
+- File operations and tool usage
+- Real-time agent responses
+
+Use keyboard shortcuts to navigate the interface and interact with the agent.
+
+## Base image
+
+Template: `docker/sandbox-templates:opencode`
+
+OpenCode supports multiple LLM providers with automatic credential injection
+through the sandbox proxy.
+
+See [Customize](../customize/) to pre-install tools or customize this
+environment.

@@ -1,0 +1,67 @@
+---
+description: Get an overview on Docker Hub to find and share container images
+keywords: docker hub, hub, repositories
+title: Docker Hub
+weight: 30
+params:
+  sidebar:
+    group: Supply chain security
+grid:
+- title: Quickstart
+  description: Step-by-step instructions on getting started on Docker Hub.
+  icon: magnifying-glass-plus
+  link: /docker-hub/quickstart
+- title: Library
+  description: Explore the content library, featuring millions of images for operating systems, frameworks, databases, and more.
+  icon: book-open
+  link: /docker-hub/image-library/
+- title: Repositories
+  description: Create a repository to share your images with your team, customers,
+    or the Docker community.
+  icon: inbox
+  link: /docker-hub/repos
+- title: Settings
+  description: Learn about settings in Docker Hub.
+  icon: cog-6-tooth
+  link: /docker-hub/settings
+- title: Organizations
+  description: Learn about organization administration.
+  icon: building-storefront
+  link: /accounts/organization/
+- title: Usage and limits
+  description: Explore usage limits and how to better utilize Docker Hub.
+  icon: chart-bar
+  link: /docker-hub/usage/
+- title: MCP server
+  description: Use the Docker Hub MCP server to access image metadata and manage repositories with AI agents.
+  icon: server-stack
+  link: /docker-hub/mcp-server/
+- title: Release notes
+  description: Find out about new features, improvements, and bug fixes.
+  icon: document-plus
+  link: /docker-hub/release-notes
+aliases:
+  - /docker-hub/overview/
+---
+
+Docker Hub simplifies development with the world's largest container registry
+for storing, managing, and sharing Docker images. By integrating seamlessly with
+your tools, it enhances productivity and ensures reliable deployment,
+distribution, and access to containerized applications. It also provides
+developers with pre-built images and assets to speed up development workflows.
+
+Key features of Docker Hub:
+
+* Unlimited public repositories
+* Private repositories
+* Webhooks to automate workflows
+* GitHub and Bitbucket integrations
+* Concurrent and automated builds
+* Trusted content featuring high-quality, secure images
+
+In addition to the graphical interface, you can interact with Docker Hub using
+the [Docker Hub API](../../reference/api/hub/latest.md), the experimental [Docker
+Hub CLI tool](https://github.com/docker/hub-tool#readme), or the [Docker Hub
+MCP server](/docker-hub/mcp-server/) for AI agent integrations.
+
+{{< grid >}}

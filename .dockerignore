@@ -1,6 +1,4 @@
 .env
-.env.*
-!.env.example
 .venv/
 .venv
 __pycache__/
@@ -13,3 +11,10 @@ frontend/node_modules/
 .DS_Store
 frontend/dist/
 coverage/
+
+# Keep the processed data used by the backend at runtime.
+!data/processed/
+!data/processed/chunks.json
+!data/processed/documents.json
+!data/processed/embeddings.npy
+!data/evaluation/

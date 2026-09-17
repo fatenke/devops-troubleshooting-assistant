@@ -1,0 +1,86 @@
+---
+title: Cursor
+weight: 40
+description: |
+  Use Cursor in Docker Sandboxes with API key or proxy-managed OAuth
+  authentication.
+keywords: docker sandboxes, cursor, cursor agent, ai agent, sbx
+---
+
+This guide covers authentication, configuration, and usage of Cursor in a
+sandboxed environment.
+
+Official documentation: [Cursor CLI](https://cursor.com/cli)
+
+## Quick start
+
+Create a sandbox and run Cursor for a project directory:
+
+```console
+$ sbx run cursor ~/my-project
+```
+
+`sbx run` defaults the workspace to the current directory:
+
+```console
+$ cd ~/my-project
+$ sbx run cursor
+```
+
+To create a [mountless sandbox](../usage.md#choose-a-workspace), use
+`sbx create` without a workspace path, then attach by name.
+
+## Authentication
+
+Cursor supports two authentication methods: an API key or OAuth.
+
+**API key**: Store your Cursor API key using
+[stored secrets](../configuration/credentials.md#stored-secrets):
+
+```console
+$ sbx secret set cursor
+```
+
+**OAuth**: If no API key is set, Cursor prompts you to sign in interactively
+on first run. The proxy intercepts the token exchange with
+`api2.cursor.sh/auth/poll`, so credentials are managed by the host and aren't
+stored inside the sandbox.
+
+## Configuration
+
+Sandboxes don't pick up user-level configuration from your host, such as
+`~/.cursor`. Only project-level configuration in the working directory is
+available inside the sandbox. See
+[Why doesn't the sandbox use my user-level agent configuration?](../faq.md#why-doesnt-the-sandbox-use-my-user-level-agent-configuration)
+for workarounds.
+
+Cursor reads `AGENTS.md` from the workspace for agent-specific instructions.
+
+### Default startup command
+
+Without extra args, the sandbox runs:
+
+```text
+cursor-agent --yolo
+```
+
+Arguments after `--` are added after the default flags when the first one is
+itself a flag (begins with `-`), so `--yolo` is preserved:
+
+```console
+$ sbx run --name <sandbox-name> -- -p "refactor this"   # runs cursor-agent --yolo -p "refactor this"
+```
+
+When the first argument is a bare word — a subcommand or prompt — it replaces
+the defaults instead.
+
+## Base image
+
+Template: `docker/sandbox-templates:cursor-agent-docker`
+
+Preconfigured with HTTP/1.1 and server-sent events for agent traffic so
+requests flow through the host proxy. Authentication state is persisted across
+sandbox restarts.
+
+See [Customize](../customize/) to pre-install tools or customize this
+environment.

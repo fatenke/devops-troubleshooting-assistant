@@ -6,4 +6,4 @@ fastembed==0.6.0
 rank-bm25==0.2.2
 groq==0.14.0
 python-dotenv==1.0.1
-numpy==2.2.3
+numpy==1.26.4
