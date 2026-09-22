@@ -25,7 +25,6 @@ data/raw/
 # ==============================
 
 data/processed/
-data/processed/docker/
 
 # ==============================
 # Monitoring / runtime data
