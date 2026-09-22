@@ -14,21 +14,10 @@ coverage/
 data/processed/__pycache__/
 *.sqlite3
 
-# ==============================
-# Raw documentation
-# ==============================
-
 data/raw/
 
-# ==============================
-# Generated / processed data
-# ==============================
-
 data/processed/
-
-# ==============================
-# Monitoring / runtime data
-# ==============================
+data/processed/embeddings.npy
 
 data/monitoring.jsonl
 data/feedback.jsonl

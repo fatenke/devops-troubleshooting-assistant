@@ -38,9 +38,9 @@ export function AppLayout() {
     <div className="app-shell min-h-screen">
       <Sidebar />
 
-      <main className="ml-64 min-h-screen">
+      <main className="ml-64 min-h-screen w-[calc(100%-16rem)]">
         <Header eyebrow={meta.eyebrow} title={meta.title} description={meta.description} />
-        <div className="page-enter mx-auto max-w-7xl px-8 py-8">
+        <div className="page-enter w-full px-6 py-8 lg:px-10">
           <Outlet />
         </div>
       </main>

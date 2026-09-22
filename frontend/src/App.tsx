@@ -9,14 +9,15 @@ import { MonitoringPage } from './pages/MonitoringPage'
 export default function App() {
   return (
     <Routes>
+      <Route path="/" element={<AboutPage />} />
+      <Route path="/about" element={<AboutPage />} />
       <Route element={<AppLayout />}>
-        <Route path="/" element={<Navigate to="/assistant" replace />} />
         <Route path="/assistant" element={<AssistantPage />} />
         <Route path="/evaluation" element={<EvaluationPage />} />
         <Route path="/monitoring" element={<MonitoringPage />} />
         <Route path="/knowledge-base" element={<KnowledgeBasePage />} />
-        <Route path="/about" element={<AboutPage />} />
       </Route>
+      <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   )
 }

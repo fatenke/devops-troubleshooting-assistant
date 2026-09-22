@@ -17,7 +17,7 @@ export function Header({ eyebrow, title, description }: HeaderProps) {
 
   return (
     <header className="app-header px-8 py-7 backdrop-blur-xl">
-      <div className="mx-auto flex max-w-7xl items-start justify-between gap-6">
+      <div className="flex w-full items-start justify-between gap-6">
         <div>
           <p className="mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-cyan-400">{eyebrow}</p>
           <h1 className="font-display text-3xl font-semibold tracking-tight text-slate-50">{title}</h1>
