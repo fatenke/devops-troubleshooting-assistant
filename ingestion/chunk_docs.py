@@ -7,9 +7,12 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 INPUT_FILE = "data/processed/documents.json"
 OUTPUT_FILE = "data/processed/chunks.json"
 
+# Chunking configuration
+CHUNK_SIZE = 1200
+CHUNK_OVERLAP = 100
+
 
 def load_documents():
-
     with open(
         INPUT_FILE,
         "r",
@@ -21,15 +24,9 @@ def load_documents():
 def create_chunks(documents):
 
     splitter = RecursiveCharacterTextSplitter(
-        chunk_size=800,
-        chunk_overlap=150,
-        length_function=len,
-        separators=[
-            "\n\n",
-            "\n",
-            " ",
-            ""
-        ]
+        chunk_size=CHUNK_SIZE,
+        chunk_overlap=CHUNK_OVERLAP,
+        separators=["\n\n", "\n", " ", ""]
     )
 
     chunks = []
@@ -38,9 +35,7 @@ def create_chunks(documents):
 
     for doc in documents:
 
-        texts = splitter.split_text(
-            doc["text"]
-        )
+        texts = splitter.split_text(doc["text"])
 
         for text in texts:
 
@@ -83,21 +78,17 @@ def main():
 
     documents = load_documents()
 
-    print(
-        f"Loaded {len(documents)} documents"
-    )
+    print(f"Loaded {len(documents)} documents")
+    print(f"Chunk size: {CHUNK_SIZE}")
+    print(f"Chunk overlap: {CHUNK_OVERLAP}")
 
     chunks = create_chunks(documents)
 
-    print(
-        f"Created {len(chunks)} chunks"
-    )
+    print(f"Created {len(chunks)} chunks")
 
     save_chunks(chunks)
 
-    print(
-        f"Saved to {OUTPUT_FILE}"
-    )
+    print(f"Saved to {OUTPUT_FILE}")
 
 
 if __name__ == "__main__":

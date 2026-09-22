@@ -51,8 +51,9 @@ a directly mounted workspace live on the host instead.
 Each sandbox maintains its own Docker daemon state, image cache, and package
 installations. Multiple sandboxes don't share images or layers. The
 [shared agent skills store](workflows/agent-skills.md) is an exception:
-supported agents mount the same host-side store read-write unless you opt out
-when creating the sandbox.
+sandboxes created for supported agents mount the same host-side store read-only
+by default. Use `--skills` or `skills.defaultMode` to choose another mode at
+creation. Existing sandboxes retain their mounts until recreated.
 
 Each sandbox consumes disk space for its VM image, Docker images, container
 layers, and volumes, and this grows as you build images and install packages.
@@ -78,6 +79,14 @@ proxy also handles [credential injection](configuration/credentials.md). See
 [Network isolation](security/isolation.md#network-isolation) for how this
 works and [Default security posture](security/defaults.md) for what is
 allowed out of the box.
+
+### Follow an authenticated request
+
+Step through the following diagram to see where Docker Sandboxes checks network
+policy and replaces a sentinel credential with the real value. The real credential stays
+outside the sandbox throughout the request.
+
+{{< interactive-diagram src="diagrams/credential-injection.yaml" >}}
 
 ### Upstream proxy
 

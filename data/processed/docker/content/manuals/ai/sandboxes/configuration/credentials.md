@@ -51,6 +51,10 @@ keychain, keyed on a service identifier. Built-in agents declare a fixed set of
 services. Custom kits can declare their own. The same `sbx secret set` flow
 works for both.
 
+Secrets whose names start with `mcp:` are reserved for the host's
+[MCP gateway](../mcp-gateway.md). See [MCP secrets](#mcp-secrets) for how
+these differ from agent and provider credentials.
+
 ### Where secrets are stored
 
 The store backing `sbx secret set` depends on your operating system:
@@ -103,6 +107,20 @@ $ sbx secret set openai --sandbox my-sandbox
 > running. A global secret only applies when a sandbox is created. If
 > you set or change a global secret while a sandbox is running, recreate the
 > sandbox for the new value to take effect.
+
+### MCP secrets
+
+The MCP gateway uses the same host credential store for OAuth client secrets
+and custom request header secrets. These records have names starting with
+`mcp:` and appear in `sbx secret ls`. They stay on the host and aren't injected
+into sandboxes. The gateway uses them to authenticate connections to MCP
+servers on behalf of sandboxed agents.
+
+For setup instructions, see
+[OAuth client secrets](../mcp-gateway.md#use-a-pre-registered-oauth-client) and
+[custom request headers](../mcp-gateway.md#custom-request-headers). Header
+secrets use the global scope and have their own
+[restart requirements](../mcp-gateway.md#manage-header-secrets).
 
 ### Use a dynamic secret source
 
@@ -565,6 +583,38 @@ For Docker Hub, `sbx kit pull` and `sbx kit push` use the session from
 `sbx login`. For other registries, both commands use these credentials. Both
 commands fall back to the Docker credential store, so credentials from
 `docker login` also work.
+
+### Trust a private registry authentication endpoint
+
+Use `--registry-auth-endpoint` with `--registry` when a self-hosted registry
+authenticates sandbox requests through a separate host. For example, a
+self-hosted GitLab registry at
+`registry.example.com` might advertise `https://gitlab.example.com/jwt/auth`
+as the `realm` in its Registry v2 `WWW-Authenticate: Bearer` challenge.
+
+Store the credential and trust that endpoint for a specific sandbox:
+
+```console
+$ echo "$GITLAB_PAT" | sbx secret set --sandbox my-app \
+    --registry registry.example.com \
+    --username "$GITLAB_USER" \
+    --registry-auth-endpoint https://gitlab.example.com/jwt/auth \
+    --password-stdin
+```
+
+Replace the example hosts with your registry and authentication hosts, and set
+`GITLAB_USER` and `GITLAB_PAT` to your GitLab username and personal access token.
+
+This authorizes the proxy to send the stored registry credential to
+`https://gitlab.example.com/jwt/auth` to exchange it for a registry token. The
+advertised realm must use HTTPS and match the configured host and path exactly.
+Other paths on that host, including `/jwt/auth/`, aren't covered. The endpoint
+URL must contain no embedded credentials, query string, or fragment. Token
+requests can still include protocol parameters such as `service` and `scope`.
+
+Without this flag, the proxy accepts authentication endpoints on the registry's
+own host and built-in registry relationships, such as Docker Hub's authentication
+host. Other authentication hosts require explicit configuration.
 
 ### Remove registry credentials
 

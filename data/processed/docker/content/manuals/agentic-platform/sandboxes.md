@@ -53,6 +53,10 @@ Use the terminal to interact with the sandbox.
 Open **Sandboxes** to review each sandbox's name, type, status, hourly rate,
 expiration, and age. Select a sandbox to reopen its detail page and terminal.
 
+In a Claude Code sandbox, paste an image from your clipboard or drag an image
+file onto the terminal to attach it to your prompt. Wait for the upload to
+finish, type your question, and press Enter to send it.
+
 ## Manage the lifecycle
 
 A sandbox can be running or paused:
@@ -63,7 +67,8 @@ A sandbox can be running or paused:
 
 When you create a sandbox, set a lifecycle timer from 1 to 24 hours and choose
 what happens when it expires. **Stop** stops the sandbox, while **Delete**
-deletes the sandbox and its files.
+deletes the sandbox and its files. When a sandbox stops, all processes running
+inside it stop too, including background processes.
 
 The sandbox's authentication, tools, access policy, and compute size are fixed
 when the sandbox is created and cannot be changed while it runs.

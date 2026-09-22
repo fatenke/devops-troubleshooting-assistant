@@ -12,9 +12,9 @@ import type { KnowledgeSource } from '../types/knowledge';
 
 const knowledgeSources: KnowledgeSource[] = [
   { id: 'docker', name: 'Docker', type: 'official', description: 'Official Docker documentation', enabled: true },
-  { id: 'kubernetes', name: 'Kubernetes', type: 'future', description: 'Coming soon', enabled: false },
+  { id: 'kubernetes', name: 'Kubernetes', type: 'official', description: 'Official Kubernetes documentation', enabled: true },
   { id: 'linux', name: 'Linux', type: 'future', description: 'Coming soon', enabled: false },
-  { id: 'git', name: 'Git', type: 'future', description: 'Coming soon', enabled: false },
+  { id: 'git', name: 'Git', type: 'official', description: 'Official Git documentation', enabled: true },
   { id: 'jenkins', name: 'Jenkins', type: 'future', description: 'Coming soon', enabled: false },
   { id: 'terraform', name: 'Terraform', type: 'future', description: 'Coming soon', enabled: false },
   { id: 'ansible', name: 'Ansible', type: 'future', description: 'Coming soon', enabled: false },

@@ -73,6 +73,22 @@ $ sbx run --name <sandbox-name> <agent>
 See [Choose a workspace](usage.md#choose-a-workspace) for mountless, direct,
 and clone-mode behavior.
 
+## Kiro, Copilot, or Droid shorthand fails
+
+In Docker Sandboxes v0.42, `sbx run kiro`, `sbx run copilot`, and
+`sbx run droid` fail because these agents moved from built-in agents to
+public kits and their shorthand names aren't resolved in this release.
+
+[Upgrade Docker Sandboxes](install.md) to v0.43.0 or later to launch
+these agents by name again. If you need to stay on v0.42, use the full kit
+reference for your agent:
+
+```console
+$ sbx run docker.io/sbx/kiro-kit:latest
+$ sbx run docker.io/sbx/copilot-kit:latest
+$ sbx run docker.io/sbx/droid-kit:latest
+```
+
 ## Agent can't install packages or reach an API
 
 Sandboxes use [network access rules](governance/access-controls/network.md) to
@@ -234,6 +250,43 @@ the egress path in the **PROXY** column:
   internal CA applies. The only difference between them is whether the client
   knows it's talking to a proxy.
 
+### Certificate errors during Docker builds
+
+Containers started by the sandbox's Docker Engine have their own trust stores.
+They don't inherit the sandbox's installed certificates. If an HTTPS download
+in a Dockerfile fails with `self signed certificate in certificate chain`,
+install the proxy CA in the build image before the download.
+
+From a shell inside the sandbox, write its proxy CA into your build context:
+
+```console
+$ printf '%s' "$PROXY_CA_CERT_B64" | base64 -d > sbx-proxy-ca.crt
+```
+
+For a Debian-based image with `ca-certificates` installed, copy the certificate
+and update the trust store before commands that make HTTPS requests:
+
+```dockerfile
+FROM python:3.13-slim
+COPY sbx-proxy-ca.crt /usr/local/share/ca-certificates/sbx-proxy-ca.crt
+RUN update-ca-certificates
+```
+
+Build inside the sandbox, passing its proxy settings to the build:
+
+```console
+$ docker build --build-arg HTTP_PROXY --build-arg HTTPS_PROXY --build-arg NO_PROXY -t my-app .
+```
+
+If your organization also inspects TLS, install its root CA in the build image
+as a separate `.crt` file before `update-ca-certificates`. Keep the system CA
+bundle intact so the image trusts both proxies and public certificate
+authorities. The earlier [certificate troubleshooting](#api-calls-fail-with-a-certificate-error)
+explains which proxy paths need each CA.
+
+Keep the generated proxy certificate out of version control. Regenerate it and
+rebuild the image if the sandbox proxy CA changes.
+
 ## Sandbox runs out of disk space
 
 The sandbox root (`/`) filesystem defaults to 20 GB. To increase it, set
@@ -307,6 +360,20 @@ the command again:
 > sbx run --clone claude \\wsl.localhost\Ubuntu\home\you\repo
 ✓ Git repository detected: \\wsl.localhost\Ubuntu\home\you\repo
 ```
+
+## SSH agent socket is missing
+
+If `SSH_AUTH_SOCK` is set inside a sandbox but `ssh-add -L` reports
+`No such file or directory`, check whether your custom template includes
+`socat`. Docker Sandboxes uses it to create the socket that forwards requests
+to your host SSH agent. Installing OpenSSH client tools alone isn't enough.
+
+For an Ubuntu-based custom template, add `socat` to the packages installed as
+root in your Dockerfile, then rebuild the template and create a sandbox from
+it. Docker-provided sandbox templates already include `socat`.
+
+If the socket exists but forwarding still fails, check the
+[SSH agent settings](configuration/credentials.md#ssh-agent).
 
 ## Sandbox commits aren't signed
 
