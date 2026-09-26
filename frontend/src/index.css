@@ -38,9 +38,172 @@
     --app-border: rgba(255, 255, 255, 0.08);
     --app-hover: rgba(255, 255, 255, 0.04);
     --app-active: rgba(255, 255, 255, 0.08);
+    --chart-grid: #334155;
+    --chart-axis: #94a3b8;
+    --chart-tooltip-bg: #101820;
+    --chart-tooltip-border: rgba(148, 163, 184, 0.2);
+    --chart-tooltip-text: #e2e8f0;
     background: var(--app-bg);
     color: var(--app-text);
     transition: background-color 180ms ease, color 180ms ease;
+  }
+
+  .knowledge-base-page {
+    --kb-card-bg: #111821;
+    --kb-border: rgba(148, 163, 184, 0.16);
+    --kb-heading: #f1f5f9;
+    --kb-copy: #94a3b8;
+    --kb-muted: #64748b;
+    --kb-status-bg: rgba(52, 211, 153, 0.12);
+    --kb-status-color: #6ee7b7;
+    color: var(--kb-copy);
+  }
+
+  .knowledge-base-mark,
+  .knowledge-base-icon {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--kb-border);
+  }
+
+  .knowledge-base-mark {
+    width: 2.9rem;
+    height: 2.9rem;
+    border-radius: 0.8rem;
+    background: rgba(34, 211, 238, 0.1);
+    color: #67e8f9;
+  }
+
+  .knowledge-base-eyebrow {
+    margin: 0 0 0.35rem;
+    color: #67e8f9;
+    font-size: 0.68rem;
+    font-weight: 700;
+  }
+
+  .knowledge-base-heading,
+  .knowledge-base-source-name {
+    color: var(--kb-heading);
+    font-family: 'Space Grotesk', ui-sans-serif, sans-serif;
+    font-weight: 600;
+  }
+
+  .knowledge-base-heading {
+    margin: 0;
+    font-size: 1.35rem;
+  }
+
+  .knowledge-base-copy {
+    margin: 0.4rem 0 0;
+    color: var(--kb-copy);
+    font-size: 0.875rem;
+  }
+
+  .knowledge-base-count {
+    display: flex;
+    align-items: baseline;
+    gap: 0.65rem;
+    white-space: nowrap;
+  }
+
+  .knowledge-base-count-value {
+    color: var(--kb-heading);
+    font-family: 'Space Grotesk', ui-sans-serif, sans-serif;
+    font-size: 1.8rem;
+    font-weight: 600;
+    line-height: 1;
+  }
+
+  .knowledge-base-count-label {
+    color: var(--kb-muted);
+    font-size: 0.75rem;
+  }
+
+  .knowledge-base-card {
+    display: flex;
+    min-height: 12rem;
+    flex-direction: column;
+    border: 1px solid var(--kb-border);
+    border-radius: 0.75rem;
+    background: var(--kb-card-bg);
+    padding: 1.15rem;
+    transition: transform 180ms ease, border-color 180ms ease, background-color 180ms ease;
+  }
+
+  .knowledge-base-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(34, 211, 238, 0.4);
+  }
+
+  .knowledge-base-icon {
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 0.7rem;
+  }
+
+  .knowledge-base-icon-docker {
+    border-color: rgba(34, 211, 238, 0.25);
+    background: rgba(34, 211, 238, 0.09);
+    color: #67e8f9;
+  }
+
+  .knowledge-base-icon-kubernetes {
+    border-color: rgba(96, 165, 250, 0.25);
+    background: rgba(96, 165, 250, 0.09);
+    color: #93c5fd;
+  }
+
+  .knowledge-base-icon-git {
+    border-color: rgba(251, 191, 36, 0.25);
+    background: rgba(251, 191, 36, 0.09);
+    color: #fcd34d;
+  }
+
+  .knowledge-base-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    border-radius: 999px;
+    background: var(--kb-status-bg);
+    padding: 0.35rem 0.55rem;
+    color: var(--kb-status-color);
+    font-size: 0.68rem;
+    font-weight: 600;
+  }
+
+  .knowledge-base-status span {
+    width: 0.38rem;
+    height: 0.38rem;
+    border-radius: 50%;
+    background: currentColor;
+  }
+
+  .knowledge-base-source-name {
+    margin: 1.15rem 0 0;
+    font-size: 1.05rem;
+  }
+
+  .knowledge-base-source-description {
+    margin: 0.35rem 0 1.1rem;
+    color: var(--kb-copy);
+    font-size: 0.8rem;
+  }
+
+  .knowledge-base-card-footer {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    margin-top: auto;
+    border-top: 1px solid var(--kb-border);
+    padding-top: 0.75rem;
+    color: var(--kb-muted);
+    font-size: 0.7rem;
+  }
+
+  .knowledge-base-card-footer svg {
+    color: #34d399;
   }
 
   .page-enter {
@@ -267,6 +430,8 @@
     .visual-ring, .visual-orbit, .visual-node { animation: none; }
   }
 
+}
+
   html.theme-light .app-shell {
     --app-bg: #f4f7fb;
     --app-sidebar: rgba(255, 255, 255, 0.94);
@@ -277,6 +442,55 @@
     --app-border: rgba(23, 32, 51, 0.12);
     --app-hover: rgba(23, 32, 51, 0.06);
     --app-active: rgba(34, 211, 238, 0.12);
+    --chart-grid: rgba(23, 32, 51, 0.12);
+    --chart-axis: #526176;
+    --chart-tooltip-bg: #ffffff;
+    --chart-tooltip-border: rgba(23, 32, 51, 0.14);
+    --chart-tooltip-text: #172033;
+  }
+
+  html.theme-light .app-shell .knowledge-base-page {
+    --kb-card-bg: #ffffff;
+    --kb-border: rgba(23, 32, 51, 0.12);
+    --kb-heading: #172033;
+    --kb-copy: #526176;
+    --kb-muted: #718096;
+    --kb-status-bg: rgba(8, 127, 91, 0.1);
+    --kb-status-color: #087f5b;
+  }
+
+  html.theme-light .knowledge-base-mark,
+  html.theme-light .knowledge-base-eyebrow {
+    color: #087f99;
+  }
+
+  html.theme-light .knowledge-base-mark {
+    border-color: rgba(8, 127, 153, 0.18);
+    background: rgba(8, 127, 153, 0.08);
+  }
+
+  html.theme-light .knowledge-base-icon-docker {
+    border-color: rgba(8, 127, 153, 0.18);
+    background: rgba(8, 127, 153, 0.07);
+    color: #087f99;
+  }
+
+  html.theme-light .knowledge-base-icon-kubernetes {
+    border-color: rgba(29, 78, 216, 0.18);
+    background: rgba(29, 78, 216, 0.07);
+    color: #1d4ed8;
+  }
+
+  html.theme-light .knowledge-base-icon-git {
+    border-color: rgba(154, 103, 0, 0.2);
+    background: rgba(154, 103, 0, 0.08);
+    color: #9a6700;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .knowledge-base-card {
+      transition: none;
+    }
   }
 
   html.theme-light .app-shell [class~='bg-slate-900/60'],
@@ -589,6 +803,7 @@
   html.theme-light .landing-page .text-slate-300 { color: #526176; }
   html.theme-light .landing-page .text-slate-400 { color: #607089; }
   html.theme-light .landing-page .text-slate-500 { color: #718096; }
+  html.theme-light .landing-page .text-cyan-200 { color: #087f99; }
   html.theme-light .landing-page .border-white\/10 { border-color: rgba(23, 32, 51, 0.11); }
   html.theme-light .landing-page .bg-white\/10 { background-color: rgba(23, 32, 51, 0.08); }
   html.theme-light .landing-page .landing-nav-cta { color: #073642; background: #67e8f9; }
@@ -614,4 +829,3 @@
   select {
     font: inherit;
   }
-}

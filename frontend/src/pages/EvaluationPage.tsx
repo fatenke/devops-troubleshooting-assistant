@@ -8,6 +8,13 @@ import { LoadingState } from '../components/common/LoadingState';
 import { getLLMEvaluation, getRetrievalEvaluation } from '../services/evaluationService';
 import type { LLMMetric, RetrievalMetric } from '../types/evaluation';
 
+const tooltipStyle = {
+  backgroundColor: 'var(--chart-tooltip-bg)',
+  border: '1px solid var(--chart-tooltip-border)',
+  borderRadius: '8px',
+  color: 'var(--chart-tooltip-text)',
+};
+
 export function EvaluationPage() {
   const [retrievalMetrics, setRetrievalMetrics] = useState<RetrievalMetric[]>([]);
   const [llmMetrics, setLLMMetrics] = useState<LLMMetric[]>([]);
@@ -121,12 +128,10 @@ export function EvaluationPage() {
               <div className="mt-6 h-72 rounded-xl border border-slate-700 bg-slate-950/30 p-3">
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={retrievalChartData}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-                    <XAxis dataKey="name" stroke="#94a3b8" fontSize={12} />
-                    <YAxis stroke="#94a3b8" fontSize={12} />
-                    <Tooltip
-                      contentStyle={{ backgroundColor: '#020817', border: '1px solid #334155', borderRadius: '12px' }}
-                    />
+                    <CartesianGrid strokeDasharray="3 3" stroke="var(--chart-grid)" />
+                    <XAxis dataKey="name" stroke="var(--chart-axis)" fontSize={12} />
+                    <YAxis stroke="var(--chart-axis)" fontSize={12} />
+                    <Tooltip contentStyle={tooltipStyle} />
                     <Bar dataKey="recall" fill="#22d3ee" radius={[4, 4, 0, 0]} />
                     <Bar dataKey="precision" fill="#a78bfa" radius={[4, 4, 0, 0]} />
                     <Bar dataKey="mrr" fill="#34d399" radius={[4, 4, 0, 0]} />
@@ -162,12 +167,10 @@ export function EvaluationPage() {
               <div className="mt-6 h-72 rounded-xl border border-slate-700 bg-slate-950/30 p-3">
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={llmChartData}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-                    <XAxis dataKey="name" stroke="#94a3b8" fontSize={12} />
-                    <YAxis stroke="#94a3b8" fontSize={12} />
-                    <Tooltip
-                      contentStyle={{ backgroundColor: '#020817', border: '1px solid #334155', borderRadius: '12px' }}
-                    />
+                    <CartesianGrid strokeDasharray="3 3" stroke="var(--chart-grid)" />
+                    <XAxis dataKey="name" stroke="var(--chart-axis)" fontSize={12} />
+                    <YAxis stroke="var(--chart-axis)" fontSize={12} />
+                    <Tooltip contentStyle={tooltipStyle} />
                     <Bar dataKey="relevance" fill="#60a5fa" radius={[4, 4, 0, 0]} />
                     <Bar dataKey="groundedness" fill="#fbbf24" radius={[4, 4, 0, 0]} />
                     <Bar dataKey="correctness" fill="#34d399" radius={[4, 4, 0, 0]} />

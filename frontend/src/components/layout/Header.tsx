@@ -20,7 +20,7 @@ export function Header({ eyebrow, title, description }: HeaderProps) {
       <div className="flex w-full items-start justify-between gap-6">
         <div>
           <p className="mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-cyan-400">{eyebrow}</p>
-          <h1 className="font-display text-3xl font-semibold tracking-tight text-slate-50">{title}</h1>
+          <h1 className="app-brand font-display text-3xl font-semibold tracking-tight">{title}</h1>
           <p className="app-muted mt-2 max-w-2xl text-sm">{description}</p>
         </div>
 

@@ -1,60 +1,77 @@
-import { BookOpen, Database, FolderOpen } from 'lucide-react';
-import { Badge } from '../components/common/Badge';
+import { Boxes, Check, GitBranch, Network, BookOpen } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 import type { KnowledgeSource } from '../types/knowledge';
 
-const sources: KnowledgeSource[] = [
+const sources: (KnowledgeSource & { icon: LucideIcon; accent: string })[] = [
   {
     id: 'docker',
     name: 'Docker',
     type: 'official',
     description: 'Official Docker documentation',
     enabled: true,
+    icon: Boxes,
+    accent: 'docker',
   },
-  { id: 'kubernetes', name: 'Kubernetes', type: 'future', description: 'Coming soon', enabled: false },
-  { id: 'linux', name: 'Linux', type: 'future', description: 'Coming soon', enabled: false },
-  { id: 'git', name: 'Git', type: 'future', description: 'Coming soon', enabled: false },
-  { id: 'jenkins', name: 'Jenkins', type: 'future', description: 'Coming soon', enabled: false },
-  { id: 'terraform', name: 'Terraform', type: 'future', description: 'Coming soon', enabled: false },
-  { id: 'ansible', name: 'Ansible', type: 'future', description: 'Coming soon', enabled: false },
+  {
+    id: 'kubernetes',
+    name: 'Kubernetes',
+    type: 'official',
+    description: 'Official Kubernetes documentation',
+    enabled: true,
+    icon: Network,
+    accent: 'kubernetes',
+  },
+  {
+    id: 'git',
+    name: 'Git',
+    type: 'official',
+    description: 'Official Git documentation',
+    enabled: true,
+    icon: GitBranch,
+    accent: 'git',
+  },
 ];
 
 export function KnowledgeBasePage() {
   return (
-    <div className="space-y-6">
-      <section className="rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
-        <div className="mb-5 flex items-center gap-3">
-          <BookOpen className="h-5 w-5 text-cyan-400" />
-          <h2 className="text-lg font-semibold text-slate-100">Knowledge Base</h2>
+    <div className="knowledge-base-page space-y-6">
+      <section className="knowledge-base-intro flex flex-col justify-between gap-5 sm:flex-row sm:items-center">
+        <div className="flex items-start gap-4">
+          <div className="knowledge-base-mark"><BookOpen aria-hidden="true" size={21} /></div>
+          <div>
+            <p className="knowledge-base-eyebrow">CONNECTED COLLECTIONS</p>
+            <h2 className="knowledge-base-heading">Documentation sources</h2>
+            <p className="knowledge-base-copy">Reference libraries currently available to the assistant.</p>
+          </div>
         </div>
-
-        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-          {sources.map((source) => (
-            <div key={source.id} className="rounded-xl border border-slate-700 bg-slate-950/40 p-4">
-              <div className="mb-3 flex items-center justify-between gap-3">
-                <div className="flex items-center gap-2">
-                  <Database className="h-4 w-4 text-slate-400" />
-                  <span className="text-sm font-medium text-slate-100">{source.name}</span>
-                </div>
-                <Badge label={source.enabled ? 'Available' : 'Coming soon'} tone={source.enabled ? 'success' : 'neutral'} />
-              </div>
-
-              <p className="text-sm text-slate-300">{source.description}</p>
-
-              {source.enabled ? (
-                <div className="mt-4 space-y-2 text-xs text-slate-300">
-                  <div className="flex items-center justify-between"><span>Documents</span><span>838</span></div>
-                  <div className="flex items-center justify-between"><span>Chunks</span><span>13,816</span></div>
-                </div>
-              ) : (
-                <div className="mt-4 flex items-center gap-2 text-xs text-slate-400">
-                  <FolderOpen className="h-3.5 w-3.5" />
-                  Future knowledge base not yet connected.
-                </div>
-              )}
-            </div>
-          ))}
+        <div className="knowledge-base-count" aria-label={`${sources.length} sources available`}>
+          <span className="knowledge-base-count-value">{String(sources.length).padStart(2, '0')}</span>
+          <span className="knowledge-base-count-label">sources available</span>
         </div>
       </section>
+
+      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+        {sources.map((source) => {
+          const SourceIcon = source.icon;
+
+          return (
+            <article key={source.id} className="knowledge-base-card">
+              <div className="flex items-start justify-between gap-4">
+                <div className={`knowledge-base-icon knowledge-base-icon-${source.accent}`}>
+                  <SourceIcon aria-hidden="true" size={21} />
+                </div>
+                <span className="knowledge-base-status"><span />Available</span>
+              </div>
+              <h3 className="knowledge-base-source-name">{source.name}</h3>
+              <p className="knowledge-base-source-description">{source.description}</p>
+              <div className="knowledge-base-card-footer">
+                <Check aria-hidden="true" size={15} />
+                <span>Ready for retrieval</span>
+              </div>
+            </article>
+          );
+        })}
+      </div>
     </div>
   );
 }

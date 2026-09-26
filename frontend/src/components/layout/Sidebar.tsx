@@ -17,8 +17,8 @@ export function Sidebar() {
           <span className="text-base font-bold">D</span>
         </div>
         <div>
-          <p className="font-display text-sm font-semibold tracking-tight text-slate-100">DevOps Assist</p>
-          <p className="text-[10px] uppercase tracking-[0.18em] text-slate-500">Control plane</p>
+          <p className="app-brand font-display text-sm font-semibold tracking-tight">DevOps Assist</p>
+          <p className="app-faint text-[10px] uppercase tracking-[0.18em]">Control plane</p>
         </div>
       </div>
 

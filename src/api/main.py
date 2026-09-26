@@ -1,5 +1,6 @@
 import time
 import json
+from collections import Counter
 from pathlib import Path
 
 from fastapi import FastAPI
@@ -75,12 +76,19 @@ def chat(request: ChatRequest):
         source.get("rerank_score", 0.0)
         for source in result.get("sources", [])
     ]
+    source_categories = [
+        source.get("category")
+        for source in result.get("sources", [])
+        if source.get("category")
+    ]
+    category = Counter(source_categories).most_common(1)
 
     # Log the request
     log_request(
         query=request.query,
         rewritten_query=result.get("rewritten_query"),
         latency=latency,
+        category=category[0][0] if category else None,
         retrieval_scores=retrieval_scores,
         rerank_scores=rerank_scores,
     )

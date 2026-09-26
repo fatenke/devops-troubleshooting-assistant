@@ -1,4 +1,5 @@
 import json
+import re
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -178,11 +179,35 @@ def get_query_count() -> int:
 def get_category_counts() -> dict[str, int]:
     """Return the number of queries per category."""
     records = get_monitoring_records()
+    sources_path = PROJECT_ROOT / "config" / "sources.json"
+
+    try:
+        with sources_path.open("r", encoding="utf-8") as sources_file:
+            known_categories = list(json.load(sources_file))
+    except (OSError, json.JSONDecodeError):
+        known_categories = []
 
     counts: dict[str, int] = {}
 
     for record in records:
-        category = record.get("category") or "unknown"
+        category = record.get("category")
+        if not isinstance(category, str) or not category.strip():
+            query = record.get("query", "")
+            if isinstance(query, str):
+                matches = [
+                    known_category
+                    for known_category in known_categories
+                    if re.search(rf"\b{re.escape(known_category)}\b", query, re.IGNORECASE)
+                ]
+                category = matches[0] if len(matches) == 1 else None
+
+        if not isinstance(category, str) or not category.strip():
+            continue
+
+        category = category.strip()
+        if category.casefold() == "unknown":
+            continue
+
         counts[category] = counts.get(category, 0) + 1
 
     return counts

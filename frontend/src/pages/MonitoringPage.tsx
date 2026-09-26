@@ -16,7 +16,12 @@ const emptyMetrics: MonitoringMetrics = {
   categories: {},
 };
 
-const tooltipStyle = { backgroundColor: '#020817', border: '1px solid #334155', borderRadius: '12px' };
+const tooltipStyle = {
+  backgroundColor: 'var(--chart-tooltip-bg)',
+  border: '1px solid var(--chart-tooltip-border)',
+  borderRadius: '8px',
+  color: 'var(--chart-tooltip-text)',
+};
 
 export function MonitoringPage() {
   const [metrics, setMetrics] = useState<MonitoringMetrics>(emptyMetrics);
@@ -92,12 +97,12 @@ export function MonitoringPage() {
           <section>
             <div className="mb-4"><p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-500">Trends and quality signals</p><h2 className="mt-1 text-xl font-semibold text-slate-100">Charts</h2></div>
             <div className="grid gap-4 xl:grid-cols-2">
-              <ChartCard icon={MessageSquareQuote} title="Queries over time"><LineChart data={metrics.queries_over_time}><ChartGrid /><XAxis dataKey="date" stroke="#94a3b8" fontSize={12} /><YAxis stroke="#94a3b8" fontSize={12} /><Tooltip contentStyle={tooltipStyle} /><Line type="monotone" dataKey="queries" stroke="#22d3ee" strokeWidth={2} dot={{ r: 3 }} /></LineChart></ChartCard>
-              <ChartCard icon={BarChart3} title="Feedback distribution"><BarChart data={feedbackData}><ChartGrid /><XAxis dataKey="name" stroke="#94a3b8" fontSize={12} /><YAxis stroke="#94a3b8" fontSize={12} allowDecimals={false} /><Tooltip contentStyle={tooltipStyle} /><Bar dataKey="count" fill="#34d399" radius={[4, 4, 0, 0]} /></BarChart></ChartCard>
-              <ChartCard icon={Gauge} title="Response latency"><LineChart data={metrics.latency_over_time}><ChartGrid /><XAxis dataKey="date" stroke="#94a3b8" fontSize={12} /><YAxis stroke="#94a3b8" fontSize={12} /><Tooltip contentStyle={tooltipStyle} /><Line type="monotone" dataKey="latency" stroke="#a78bfa" strokeWidth={2} dot={{ r: 3 }} /></LineChart></ChartCard>
-              <ChartCard icon={BarChart3} title="Retrieval vs reranking scores"><BarChart data={scoreData}><ChartGrid /><XAxis dataKey="name" stroke="#94a3b8" fontSize={12} /><YAxis stroke="#94a3b8" fontSize={12} /><Tooltip contentStyle={tooltipStyle} /><Bar dataKey="score" fill="#fbbf24" radius={[4, 4, 0, 0]} /></BarChart></ChartCard>
+              <ChartCard icon={MessageSquareQuote} title="Queries over time"><LineChart data={metrics.queries_over_time}><ChartGrid /><XAxis dataKey="date" stroke="var(--chart-axis)" fontSize={12} /><YAxis stroke="var(--chart-axis)" fontSize={12} /><Tooltip contentStyle={tooltipStyle} /><Line type="monotone" dataKey="queries" stroke="#22d3ee" strokeWidth={2} dot={{ r: 3 }} /></LineChart></ChartCard>
+              <ChartCard icon={BarChart3} title="Feedback distribution"><BarChart data={feedbackData}><ChartGrid /><XAxis dataKey="name" stroke="var(--chart-axis)" fontSize={12} /><YAxis stroke="var(--chart-axis)" fontSize={12} allowDecimals={false} /><Tooltip contentStyle={tooltipStyle} /><Bar dataKey="count" fill="#34d399" radius={[4, 4, 0, 0]} /></BarChart></ChartCard>
+              <ChartCard icon={Gauge} title="Response latency"><LineChart data={metrics.latency_over_time}><ChartGrid /><XAxis dataKey="date" stroke="var(--chart-axis)" fontSize={12} /><YAxis stroke="var(--chart-axis)" fontSize={12} /><Tooltip contentStyle={tooltipStyle} /><Line type="monotone" dataKey="latency" stroke="#a78bfa" strokeWidth={2} dot={{ r: 3 }} /></LineChart></ChartCard>
+              <ChartCard icon={BarChart3} title="Retrieval vs reranking scores"><BarChart data={scoreData}><ChartGrid /><XAxis dataKey="name" stroke="var(--chart-axis)" fontSize={12} /><YAxis stroke="var(--chart-axis)" fontSize={12} /><Tooltip contentStyle={tooltipStyle} /><Bar dataKey="score" fill="#fbbf24" radius={[4, 4, 0, 0]} /></BarChart></ChartCard>
             </div>
-            <div className="mt-4"><ChartCard icon={Activity} title="Problem categories"><BarChart data={categoryData} layout="vertical"><ChartGrid /><XAxis type="number" stroke="#94a3b8" fontSize={12} allowDecimals={false} /><YAxis type="category" dataKey="category" stroke="#94a3b8" width={110} fontSize={12} /><Tooltip contentStyle={tooltipStyle} /><Bar dataKey="count" fill="#fb7185" radius={[0, 4, 4, 0]} /></BarChart></ChartCard></div>
+            <div className="mt-4"><ChartCard icon={Activity} title="Queries by documentation category">{categoryData.length > 0 ? <BarChart data={categoryData} layout="vertical"><ChartGrid /><XAxis type="number" stroke="var(--chart-axis)" fontSize={12} allowDecimals={false} /><YAxis type="category" dataKey="category" stroke="var(--chart-axis)" width={110} fontSize={12} /><Tooltip contentStyle={tooltipStyle} /><Bar dataKey="count" fill="#fb7185" radius={[0, 4, 4, 0]} /></BarChart> : <div className="flex h-full items-center justify-center px-4 text-center text-sm text-slate-400">Categories will appear after new queries are classified.</div>}</ChartCard></div>
           </section>
         </>
       )}
@@ -114,5 +119,5 @@ function ChartCard({ icon: Icon, title, children }: { icon: typeof Activity; tit
 }
 
 function ChartGrid() {
-  return <CartesianGrid strokeDasharray="3 3" stroke="#334155" />;
+  return <CartesianGrid strokeDasharray="3 3" stroke="var(--chart-grid)" />;
 }
